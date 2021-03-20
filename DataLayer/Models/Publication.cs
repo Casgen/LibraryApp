@@ -22,5 +22,8 @@ namespace DataLayer.Models
 
         public virtual Image Image { get; set; }
 
+        public virtual Category Category { get; set; }
+        public virtual ICollection<Reservation> Reservation { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
     }
 }
