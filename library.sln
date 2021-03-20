@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "library", "library\library.csproj", "{83ADEBE5-0411-4FDC-BB79-F5455809B7BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library", "library\Library.csproj", "{83ADEBE5-0411-4FDC-BB79-F5455809B7BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{B8874DC9-AF3F-4F94-8C9E-578DA0782623}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{B8874DC9-AF3F-4F94-8C9E-578DA0782623}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -13,5 +13,8 @@ namespace DataLayer.Models
         public int ImageID { get; set; }
         public string Text { get; set; }
 
+        public virtual Category Category { get; set; }
+        public virtual ICollection<Reservation> Reservation { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
     }
 }
