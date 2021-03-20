@@ -28,7 +28,7 @@ namespace library
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<LibaryDbContext>(options =>
+            services.AddDbContext<LibraryDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
             });

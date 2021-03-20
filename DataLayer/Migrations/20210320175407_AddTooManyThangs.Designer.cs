@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataLayer.Migrations
 {
-    [DbContext(typeof(LibaryDbContext))]
+    [DbContext(typeof(LibraryDbContext))]
     [Migration("20210320175407_AddTooManyThangs")]
     partial class AddTooManyThangs
     {

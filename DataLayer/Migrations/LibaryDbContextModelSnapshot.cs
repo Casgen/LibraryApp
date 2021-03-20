@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataLayer.Migrations
 {
-    [DbContext(typeof(LibaryDbContext))]
+    [DbContext(typeof(LibraryDbContext))]
     partial class LibaryDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -18,23 +18,6 @@ namespace DataLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("DataLayer.Models.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
 
             modelBuilder.Entity("DataLayer.Models.Author", b =>
                 {
@@ -91,6 +74,23 @@ namespace DataLayer.Migrations
                     b.HasIndex("PublicationId");
 
                     b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("DataLayer.Models.Image", b =>
@@ -168,7 +168,28 @@ namespace DataLayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ImageId");
+
                     b.ToTable("Publications");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.Publisher", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Publishers");
                 });
 
             modelBuilder.Entity("DataLayer.Models.Reservation", b =>
@@ -286,15 +307,51 @@ namespace DataLayer.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("DataLayer.Models.Book", b =>
+                {
+                    b.HasOne("DataLayer.Models.Author", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId1");
+
+                    b.HasOne("DataLayer.Models.Publication", "Publication")
+                        .WithMany()
+                        .HasForeignKey("PublicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Publication");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.Magazine", b =>
+                {
+                    b.HasOne("DataLayer.Models.Publication", "Publication")
+                        .WithMany()
+                        .HasForeignKey("PublicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Publication");
+                });
+
             modelBuilder.Entity("DataLayer.Models.Publication", b =>
                 {
                     b.HasOne("DataLayer.Models.Category", "Category")
-                        .WithMany("Publicatios")
-                        .HasForeignKey("CategoryID")
+                        .WithMany("Publications")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataLayer.Models.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
+
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("DataLayer.Models.Reservation", b =>
@@ -306,7 +363,7 @@ namespace DataLayer.Migrations
                         .IsRequired();
 
                     b.HasOne("DataLayer.Models.User", "User")
-                        .WithMany("Reservation")
+                        .WithMany("Reservations")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -348,7 +405,7 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.Category", b =>
                 {
-                    b.Navigation("Publicatios");
+                    b.Navigation("Publications");
                 });
 
             modelBuilder.Entity("DataLayer.Models.Publication", b =>
@@ -365,65 +422,9 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.User", b =>
                 {
-                    b.Navigation("Reservation");
+                    b.Navigation("Reservations");
 
                     b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("DataLayer.Models.Publisher", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Publishers");
-                });
-
-            modelBuilder.Entity("DataLayer.Models.Book", b =>
-                {
-                    b.HasOne("DataLayer.Models.Author", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId1");
-
-                    b.HasOne("DataLayer.Models.Publication", "Publication")
-                        .WithMany()
-                        .HasForeignKey("PublicationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Publication");
-                });
-
-            modelBuilder.Entity("DataLayer.Models.Magazine", b =>
-                {
-                    b.HasOne("DataLayer.Models.Publication", "Publication")
-                        .WithMany()
-                        .HasForeignKey("PublicationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Publication");
-                });
-
-            modelBuilder.Entity("DataLayer.Models.Publication", b =>
-                {
-                    b.HasOne("DataLayer.Models.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Image");
                 });
 #pragma warning restore 612, 618
         }

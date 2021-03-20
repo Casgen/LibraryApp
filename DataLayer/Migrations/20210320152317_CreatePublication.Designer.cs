@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataLayer.Migrations
 {
-    [DbContext(typeof(LibaryDbContext))]
+    [DbContext(typeof(LibraryDbContext))]
     [Migration("20210320152317_CreatePublication")]
     partial class CreatePublication
     {
