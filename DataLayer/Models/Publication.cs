@@ -1,17 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace DataLayer.Models
 {
     public class Publication
     {
-        public string Name {get; set; }
-        public int YearOfPub { get; set; }
         public int Id { get; set; }
-        public int CategoryID { get; set; }
-        public int ImageID { get; set; }
-        public string Text { get; set; }
+        [Required]
+        public string Name {get; set; }
+        [Required]
+        public int YearOfPub { get; set; }
+        [Required]
+        public int CategoryId { get; set; }
+        [Required]
+        public int ImageId { get; set; }
+        [Required]
+        public string Description { get; set; }
+
+        public virtual Image Image { get; set; }
 
     }
 }
