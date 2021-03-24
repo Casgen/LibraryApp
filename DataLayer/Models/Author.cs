@@ -7,7 +7,7 @@ namespace DataLayer.Models
 {
     public class Author
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         [Required]
         [StringLength(30)]
         public string LastName { get; set; }

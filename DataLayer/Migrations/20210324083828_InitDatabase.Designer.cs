@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    [Migration("20210320190042_InitDatabase")]
+    [Migration("20210324083828_InitDatabase")]
     partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,8 +23,10 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.Author", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -55,9 +57,6 @@ namespace DataLayer.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
-                    b.Property<string>("AuthorId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("ISBN")
                         .IsRequired()
                         .HasMaxLength(17)
@@ -71,7 +70,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId1");
+                    b.HasIndex("AuthorId");
 
                     b.HasIndex("PublicationId");
 
@@ -313,7 +312,9 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.Models.Author", "Author")
                         .WithMany()
-                        .HasForeignKey("AuthorId1");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DataLayer.Models.Publication", "Publication")
                         .WithMany()
