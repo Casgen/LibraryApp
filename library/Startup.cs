@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataLayer.Repository;
 using Microsoft.EntityFrameworkCore;
 using HotChocolate;
 using Library.Schema.Book;
@@ -39,6 +40,7 @@ namespace library
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
             });
+            services.AddTransient<BookRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

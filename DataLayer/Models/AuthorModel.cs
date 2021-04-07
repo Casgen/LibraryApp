@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataLayer.Models
 {
-    public class Author
+    public class AuthorModel
     {
         public int Id { get; set; }
         [Required]

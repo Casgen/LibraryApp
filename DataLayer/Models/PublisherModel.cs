@@ -5,13 +5,11 @@ using System.Text;
 
 namespace DataLayer.Models
 {
-    public class Role
+    public class PublisherModel
     {
         public int Id { get; set; }
         [Required]
-        [StringLength(30)]
+        [StringLength(50)]
         public string Name { get; set; }
-
-        public virtual User User { get; set; }
     }
 }

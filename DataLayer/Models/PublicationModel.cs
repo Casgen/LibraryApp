@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DataLayer.Models
 {
-    public class Publication
+    public class PublicationModel
     {
         public int Id { get; set; }
         [Required]
@@ -20,10 +20,10 @@ namespace DataLayer.Models
         [Required]
         public string Description { get; set; }
 
-        public virtual Image Image { get; set; }
+        public virtual ImageModel Image { get; set; }
 
-        public virtual Category Category { get; set; }
-        public virtual ICollection<Reservation> Reservation { get; set; }
-        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual CategoryModel Category { get; set; }
+        public virtual ICollection<ReservationModel> Reservation { get; set; }
+        public virtual ICollection<ReviewModel> Reviews { get; set; }
     }
 }

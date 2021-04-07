@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataLayer.Models
 {
-    public class Review
+    public class ReviewModel
     {
         public int Id { get; set; }
         [Required]
@@ -20,7 +20,7 @@ namespace DataLayer.Models
         [Required]
         public int PublicationId { get; set; }
 
-        public virtual User User { get; set; }
-        public virtual Publication Publication { get; set; }
+        public virtual UserModel User { get; set; }
+        public virtual PublicationModel Publication { get; set; }
     }
 }

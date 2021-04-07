@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataLayer.Models
 {
-    public class User
+    public class UserModel
     {
         public int Id { get; set; }
         [Required]
@@ -22,8 +22,8 @@ namespace DataLayer.Models
         [Required]
         public int RoleId { get; set; }
 
-        public virtual Role Role { get; set; }
-        public virtual ICollection<Reservation> Reservations { get; set; }
-        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual RoleModel Role { get; set; }
+        public virtual ICollection<ReservationModel> Reservations { get; set; }
+        public virtual ICollection<ReviewModel> Reviews { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataLayer.Models
 {
-    public class Magazine
+    public class MagazineModel
     {
         public int Id { get; set; }
         [Required]
@@ -14,6 +14,6 @@ namespace DataLayer.Models
         [Required]
         public int PublicationId { get; set; }
 
-        public virtual Publication Publication { get; set; }
+        public virtual PublicationModel Publication { get; set; }
     }
 }
