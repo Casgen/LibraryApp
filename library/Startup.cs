@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using HotChocolate;
+using Library.Schema.Book;
 
 namespace library
 {
@@ -28,6 +30,11 @@ namespace library
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services
+                .AddGraphQLServer()
+                .AddQueryType(x => x.Name("RootQuery"))
+                .AddTypeExtension<BookQueries>()
+                .AddType<BookType>();
             services.AddDbContext<LibraryDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
@@ -48,9 +55,10 @@ namespace library
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
+            app
+                .UseRouting()
+                .UseEndpoints(endpoints => {
+                endpoints.MapGraphQL();
             });
         }
     }
