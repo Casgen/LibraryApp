@@ -35,7 +35,10 @@ namespace library
                 .AddGraphQLServer()
                 .AddQueryType(x => x.Name("RootQuery"))
                 .AddTypeExtension<BookQueries>()
-                .AddType<BookType>();
+                .AddType<BookType>()
+                .AddMutationType(x => x.Name("MutationQuery"))
+                .AddTypeExtension<BookMutations>()
+                .AddType<BookInputType>();
             services.AddDbContext<LibraryDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));

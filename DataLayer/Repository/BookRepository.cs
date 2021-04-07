@@ -18,5 +18,11 @@ namespace DataLayer.Repository
         {
             return await libraryDbContext.Books.FindAsync(id);
         }
+
+        public async Task CreateBook(BookModel bookModel)
+        {
+            await libraryDbContext.Books.AddAsync(bookModel);
+            await libraryDbContext.SaveChangesAsync();
+        }
     }
 }
