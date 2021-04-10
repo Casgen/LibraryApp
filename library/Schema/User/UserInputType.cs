@@ -1,11 +1,17 @@
-﻿using System;
+﻿using DataLayer.Models;
+using HotChocolate.Types;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Library.Schema.User
 {
-    public class UserInputType
+    public class UserInputType : InputObjectType<UserModel>
     {
+        protected override void Configure(IInputObjectTypeDescriptor<UserModel> descriptor)
+        {
+            descriptor.Field(b => b.Id).Type<IdType>();
+        }
     }
 }
