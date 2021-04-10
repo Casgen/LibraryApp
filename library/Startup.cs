@@ -15,6 +15,7 @@ using DataLayer.Repository;
 using Microsoft.EntityFrameworkCore;
 using HotChocolate;
 using Library.Schema.Book;
+using Library.Schema.Publisher;
 
 namespace library
 {
@@ -31,19 +32,25 @@ namespace library
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services
-                .AddGraphQLServer()
+
+            services.AddGraphQLServer()
                 .AddQueryType(x => x.Name("RootQuery"))
-                .AddTypeExtension<BookQueries>()
-                .AddType<BookType>()
+                    .AddTypeExtension<BookQueries>()
+                        .AddType<BookType>()
                 .AddMutationType(x => x.Name("MutationQuery"))
-                .AddTypeExtension<BookMutations>()
-                .AddType<BookInputType>();
+                    .AddTypeExtension<BookMutations>()
+                        .AddType<BookInputType>()
+                    .AddTypeExtension<PublisherMutations>()
+                        .AddType<PublisherInputType>();
+                
+                
             services.AddDbContext<LibraryDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
             });
+
             services.AddTransient<BookRepository>();
+            services.AddTransient<PublisherRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
