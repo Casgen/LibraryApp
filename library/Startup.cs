@@ -14,7 +14,12 @@ using System.Threading.Tasks;
 using DataLayer.Repository;
 using Microsoft.EntityFrameworkCore;
 using HotChocolate;
+using Library.Schema.Author;
 using Library.Schema.Book;
+using Library.Schema.Category;
+using Library.Schema.Image;
+using Library.Schema.Magazine;
+using Library.Schema.Publication;
 using Library.Schema.Publisher;
 using Library.Schema.Reservation;
 using Library.Schema.Review;
@@ -51,6 +56,16 @@ namespace library
                         .AddType<RoleType>()
                     .AddTypeExtension<UserQueries>()
                         .AddType<UserType>()
+                    .AddTypeExtension<AuthorQueries>()
+                        .AddType<AuthorType>()
+                    .AddTypeExtension<CategoryQueries>()
+                        .AddType<CategoryType>()
+                    .AddTypeExtension<ImageQueries>()
+                        .AddType<ImageType>()
+                    .AddTypeExtension<MagazineQueries>()
+                        .AddType<MagazineType>()
+                    .AddTypeExtension<PublicationQueries>()
+                        .AddType<PublicationType>()
                 .AddMutationType(x => x.Name("MutationQuery"))
                     .AddTypeExtension<BookMutations>()
                         .AddType<BookInputType>()
@@ -63,7 +78,17 @@ namespace library
                     .AddTypeExtension<RoleMutations>()
                         .AddType<RoleInputType>()
                     .AddTypeExtension<UserMutations>()
-                        .AddType<UserInputType>();
+                        .AddType<UserInputType>()
+                    .AddTypeExtension<AuthorMutations>()
+                        .AddType<AuthorInputType>()
+                    .AddTypeExtension<CategoryMutations>()
+                        .AddType<CategoryInputType>()
+                    .AddTypeExtension<ImageMutations>()
+                        .AddType<ImageInputType>()
+                    .AddTypeExtension<MagazineMutations>()
+                        .AddType<MagazineInputType>()
+                    .AddTypeExtension<PublicationMutations>()
+                        .AddType<PublicationInputType>();
 
 
             services.AddDbContext<LibraryDbContext>(options =>
@@ -71,8 +96,17 @@ namespace library
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
             });
 
+            services.AddTransient<AuthorRepository>();
             services.AddTransient<BookRepository>();
+            services.AddTransient<CategoryRepository>();
+            services.AddTransient<ImageRepository>();
+            services.AddTransient<MagazineRepository>();
+            services.AddTransient<PublicationRepository>();
             services.AddTransient<PublisherRepository>();
+            services.AddTransient<ReservationRepository>();
+            services.AddTransient<ReviewRepository>();
+            services.AddTransient<RoleRepository>();
+            services.AddTransient<UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

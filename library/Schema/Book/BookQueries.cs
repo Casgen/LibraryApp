@@ -18,13 +18,13 @@ namespace Library.Schema.Book
         }
         public async Task<BookModel> GetBook(int id)
         {
-            BookModel book = await bookRepository.GetBook(id);
+            BookModel book = await bookRepository.GetByIdAsync(id);
             return book;
         }
         public async Task<List<BookModel>> GetBooks(List<String> urls)
         {
-            List<BookModel> books = new List<BookModel>();
-            throw new NotImplementedException();
+            List<BookModel> books = (List<BookModel>) await bookRepository.GetAllAsync();
+            return books;
         }
     }
 }

@@ -6,11 +6,11 @@ using DataLayer.Models;
 
 namespace DataLayer.Repository
 {
-    public class BookRepository : Repository<BookModel>
+    public class CategoryRepository : Repository<CategoryModel>
     {
-        public BookRepository(LibraryDbContext libraryDbContext) : base(libraryDbContext)
+        public CategoryRepository(LibraryDbContext libraryDbContext) : base(libraryDbContext)
         {
-            
+
         }
     }
 }

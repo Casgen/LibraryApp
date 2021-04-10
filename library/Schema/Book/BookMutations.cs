@@ -21,7 +21,7 @@ namespace Library.Schema.Book
 
         public async Task<BookModel> CreateBook(BookModel bookModel)
         {
-            await bookRepository.CreateBook(bookModel);
+            await bookRepository.CreateAsync(bookModel);
             return bookModel;
         }
     }
