@@ -16,6 +16,10 @@ using Microsoft.EntityFrameworkCore;
 using HotChocolate;
 using Library.Schema.Book;
 using Library.Schema.Publisher;
+using Library.Schema.Reservation;
+using Library.Schema.Review;
+using Library.Schema.Role;
+using Library.Schema.User;
 
 namespace library
 {
@@ -37,13 +41,31 @@ namespace library
                 .AddQueryType(x => x.Name("RootQuery"))
                     .AddTypeExtension<BookQueries>()
                         .AddType<BookType>()
+                    .AddTypeExtension<PublisherQueries>()
+                        .AddType<PublisherType>()
+                    .AddTypeExtension<ReservationQueries>()
+                        .AddType<ReservationType>()
+                    .AddTypeExtension<ReviewQueries>()
+                        .AddType<ReviewType>()
+                    .AddTypeExtension<RoleQueries>()
+                        .AddType<RoleType>()
+                    .AddTypeExtension<UserQueries>()
+                        .AddType<UserType>()
                 .AddMutationType(x => x.Name("MutationQuery"))
                     .AddTypeExtension<BookMutations>()
                         .AddType<BookInputType>()
                     .AddTypeExtension<PublisherMutations>()
-                        .AddType<PublisherInputType>();
-                
-                
+                        .AddType<PublisherInputType>()
+                    .AddTypeExtension<ReservationMutations>()
+                        .AddType<ReservationInputType>()
+                    .AddTypeExtension<ReviewMutations>()
+                        .AddType<ReviewInputType>()
+                    .AddTypeExtension<RoleMutations>()
+                        .AddType<RoleInputType>()
+                    .AddTypeExtension<UserMutations>()
+                        .AddType<UserInputType>();
+
+
             services.AddDbContext<LibraryDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
