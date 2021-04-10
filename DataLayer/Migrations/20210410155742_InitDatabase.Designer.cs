@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    [Migration("20210324083828_InitDatabase")]
+    [Migration("20210410155742_InitDatabase")]
     partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,7 @@ namespace DataLayer.Migrations
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DataLayer.Models.Author", b =>
+            modelBuilder.Entity("DataLayer.Models.AuthorModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -47,7 +47,7 @@ namespace DataLayer.Migrations
                     b.ToTable("Authors");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Book", b =>
+            modelBuilder.Entity("DataLayer.Models.BookModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -62,9 +62,6 @@ namespace DataLayer.Migrations
                         .HasMaxLength(17)
                         .HasColumnType("nvarchar(17)");
 
-                    b.Property<int>("PublicationId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -72,12 +69,10 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("PublicationId");
-
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Category", b =>
+            modelBuilder.Entity("DataLayer.Models.CategoryModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -94,7 +89,7 @@ namespace DataLayer.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Image", b =>
+            modelBuilder.Entity("DataLayer.Models.ImageModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -121,7 +116,7 @@ namespace DataLayer.Migrations
                     b.ToTable("Images");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Magazine", b =>
+            modelBuilder.Entity("DataLayer.Models.MagazineModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -133,22 +128,23 @@ namespace DataLayer.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("PublicationId")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PublicationId");
-
                     b.ToTable("Magazines");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Publication", b =>
+            modelBuilder.Entity("DataLayer.Models.PublicationModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -160,6 +156,9 @@ namespace DataLayer.Migrations
                     b.Property<int>("ImageId")
                         .HasColumnType("int");
 
+                    b.Property<int>("MagazineId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -169,14 +168,18 @@ namespace DataLayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BookId");
+
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("ImageId");
 
+                    b.HasIndex("MagazineId");
+
                     b.ToTable("Publications");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Publisher", b =>
+            modelBuilder.Entity("DataLayer.Models.PublisherModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -193,7 +196,7 @@ namespace DataLayer.Migrations
                     b.ToTable("Publishers");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Reservation", b =>
+            modelBuilder.Entity("DataLayer.Models.ReservationModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -221,7 +224,7 @@ namespace DataLayer.Migrations
                     b.ToTable("Reservations");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Review", b =>
+            modelBuilder.Entity("DataLayer.Models.ReviewModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -254,7 +257,7 @@ namespace DataLayer.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Role", b =>
+            modelBuilder.Entity("DataLayer.Models.RoleModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -271,7 +274,7 @@ namespace DataLayer.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.User", b =>
+            modelBuilder.Entity("DataLayer.Models.UserModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -308,64 +311,61 @@ namespace DataLayer.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Book", b =>
+            modelBuilder.Entity("DataLayer.Models.BookModel", b =>
                 {
-                    b.HasOne("DataLayer.Models.Author", "Author")
+                    b.HasOne("DataLayer.Models.AuthorModel", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataLayer.Models.Publication", "Publication")
-                        .WithMany()
-                        .HasForeignKey("PublicationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Author");
-
-                    b.Navigation("Publication");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Magazine", b =>
+            modelBuilder.Entity("DataLayer.Models.PublicationModel", b =>
                 {
-                    b.HasOne("DataLayer.Models.Publication", "Publication")
+                    b.HasOne("DataLayer.Models.BookModel", "Book")
                         .WithMany()
-                        .HasForeignKey("PublicationId")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Publication");
-                });
-
-            modelBuilder.Entity("DataLayer.Models.Publication", b =>
-                {
-                    b.HasOne("DataLayer.Models.Category", "Category")
+                    b.HasOne("DataLayer.Models.CategoryModel", "Category")
                         .WithMany("Publications")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataLayer.Models.Image", "Image")
+                    b.HasOne("DataLayer.Models.ImageModel", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DataLayer.Models.MagazineModel", "Magazine")
+                        .WithMany()
+                        .HasForeignKey("MagazineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
                     b.Navigation("Category");
 
                     b.Navigation("Image");
+
+                    b.Navigation("Magazine");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Reservation", b =>
+            modelBuilder.Entity("DataLayer.Models.ReservationModel", b =>
                 {
-                    b.HasOne("DataLayer.Models.Publication", "Publication")
+                    b.HasOne("DataLayer.Models.PublicationModel", "Publication")
                         .WithMany("Reservation")
                         .HasForeignKey("PublicationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataLayer.Models.User", "User")
+                    b.HasOne("DataLayer.Models.UserModel", "User")
                         .WithMany("Reservations")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -376,15 +376,15 @@ namespace DataLayer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Review", b =>
+            modelBuilder.Entity("DataLayer.Models.ReviewModel", b =>
                 {
-                    b.HasOne("DataLayer.Models.Publication", "Publication")
+                    b.HasOne("DataLayer.Models.PublicationModel", "Publication")
                         .WithMany("Reviews")
                         .HasForeignKey("PublicationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataLayer.Models.User", "User")
+                    b.HasOne("DataLayer.Models.UserModel", "User")
                         .WithMany("Reviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -395,35 +395,35 @@ namespace DataLayer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.User", b =>
+            modelBuilder.Entity("DataLayer.Models.UserModel", b =>
                 {
-                    b.HasOne("DataLayer.Models.Role", "Role")
+                    b.HasOne("DataLayer.Models.RoleModel", "Role")
                         .WithOne("User")
-                        .HasForeignKey("DataLayer.Models.User", "RoleId")
+                        .HasForeignKey("DataLayer.Models.UserModel", "RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Category", b =>
+            modelBuilder.Entity("DataLayer.Models.CategoryModel", b =>
                 {
                     b.Navigation("Publications");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Publication", b =>
+            modelBuilder.Entity("DataLayer.Models.PublicationModel", b =>
                 {
                     b.Navigation("Reservation");
 
                     b.Navigation("Reviews");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Role", b =>
+            modelBuilder.Entity("DataLayer.Models.RoleModel", b =>
                 {
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.User", b =>
+            modelBuilder.Entity("DataLayer.Models.UserModel", b =>
                 {
                     b.Navigation("Reservations");
 

@@ -18,9 +18,6 @@ namespace DataLayer.Models
         [Required]
         public int Quantity { get; set; }
         [Required]
-        public int PublicationId { get; set; }
-
-        public virtual PublicationModel Publication { get; set; }
         public virtual AuthorModel Author { get; set; }
 
     }

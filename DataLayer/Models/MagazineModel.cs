@@ -12,8 +12,7 @@ namespace DataLayer.Models
         [StringLength(20)]
         public string Issue { get; set; }
         [Required]
-        public int PublicationId { get; set; }
+        public int Quantity { get; set; }
 
-        public virtual PublicationModel Publication { get; set; }
     }
 }

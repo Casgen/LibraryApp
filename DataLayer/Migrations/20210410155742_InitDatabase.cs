@@ -52,6 +52,20 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Magazines",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Issue = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Magazines", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Publishers",
                 columns: table => new
                 {
@@ -78,30 +92,22 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Publications",
+                name: "Books",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    YearOfPub = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    ImageId = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ISBN = table.Column<string>(type: "nvarchar(17)", maxLength: 17, nullable: false),
+                    AuthorId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Publications", x => x.Id);
+                    table.PrimaryKey("PK_Books", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Publications_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Publications_Images_ImageId",
-                        column: x => x.ImageId,
-                        principalTable: "Images",
+                        name: "FK_Books_Authors_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Authors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -130,49 +136,44 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Books",
+                name: "Publications",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ISBN = table.Column<string>(type: "nvarchar(17)", maxLength: 17, nullable: false),
-                    AuthorId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    PublicationId = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    YearOfPub = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    ImageId = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: false),
+                    MagazineId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Books", x => x.Id);
+                    table.PrimaryKey("PK_Publications", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Books_Authors_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "Authors",
+                        name: "FK_Publications_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Books_Publications_PublicationId",
-                        column: x => x.PublicationId,
-                        principalTable: "Publications",
+                        name: "FK_Publications_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Magazines",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Issue = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    PublicationId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Magazines", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Magazines_Publications_PublicationId",
-                        column: x => x.PublicationId,
-                        principalTable: "Publications",
+                        name: "FK_Publications_Images_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "Images",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Publications_Magazines_MagazineId",
+                        column: x => x.MagazineId,
+                        principalTable: "Magazines",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -240,14 +241,9 @@ namespace DataLayer.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Books_PublicationId",
-                table: "Books",
-                column: "PublicationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Magazines_PublicationId",
-                table: "Magazines",
-                column: "PublicationId");
+                name: "IX_Publications_BookId",
+                table: "Publications",
+                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Publications_CategoryId",
@@ -258,6 +254,11 @@ namespace DataLayer.Migrations
                 name: "IX_Publications_ImageId",
                 table: "Publications",
                 column: "ImageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Publications_MagazineId",
+                table: "Publications",
+                column: "MagazineId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_PublicationId",
@@ -289,12 +290,6 @@ namespace DataLayer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Books");
-
-            migrationBuilder.DropTable(
-                name: "Magazines");
-
-            migrationBuilder.DropTable(
                 name: "Publishers");
 
             migrationBuilder.DropTable(
@@ -304,13 +299,13 @@ namespace DataLayer.Migrations
                 name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "Authors");
-
-            migrationBuilder.DropTable(
                 name: "Publications");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Books");
 
             migrationBuilder.DropTable(
                 name: "Categories");
@@ -319,7 +314,13 @@ namespace DataLayer.Migrations
                 name: "Images");
 
             migrationBuilder.DropTable(
+                name: "Magazines");
+
+            migrationBuilder.DropTable(
                 name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "Authors");
         }
     }
 }
