@@ -23,5 +23,9 @@ namespace Library.Schema.Role
             await roleRepository.CreateAsync(roleModel);
             return roleModel;
         }
+        public async Task<RoleModel> DeleteRole(int id)
+        {
+            return await roleRepository.DeleteAsync(id);
+        }
     }
 }
