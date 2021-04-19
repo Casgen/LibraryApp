@@ -53,5 +53,13 @@ namespace DataLayer.Repository
             libraryDbContext.Set<T>().RemoveRange(entity);
             await libraryDbContext.SaveChangesAsync();
         }
+
+        public async Task<T> DeleteAsync(int id)
+        {
+            T entityToDelete = await GetByIdAsync(id);
+            libraryDbContext.Set<T>().Remove(entityToDelete);
+            await libraryDbContext.SaveChangesAsync();
+            return entityToDelete;
+        }
     }
 }
