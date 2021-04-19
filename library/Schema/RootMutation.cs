@@ -52,7 +52,8 @@ namespace Library.Schema
             descriptor.Field<RoleMutations>(x => x.CreateRole(default)).Argument("roleModel", x => x.Type<RoleInputType>());
 
             // User Mutations
-            descriptor.Field<UserMutations>(x => x.CreateUser(default)).Argument("userModel", x => x.Type<UserInputType>());
+            descriptor.Field<UserMutations>(x => x.Register(default)).Argument("userModel", x => x.Type<UserInputType>());
+            descriptor.Field<UserMutations>(x => x.Login(default,default)).Argument("userModel", x => x.Type<UserInputType>());
         }
     }
 }
