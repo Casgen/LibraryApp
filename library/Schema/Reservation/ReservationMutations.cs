@@ -23,5 +23,10 @@ namespace Library.Schema.Reservation
             await reservationRepository.CreateAsync(reservationModel);
             return reservationModel;
         }
+
+        public async Task<ReservationModel> DeleteReservation(int id)
+        {
+            return await reservationRepository.DeleteAsync(id);
+        }
     }
 }

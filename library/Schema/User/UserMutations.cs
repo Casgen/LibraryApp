@@ -49,5 +49,9 @@ namespace Library.Schema.User
 
             return stringBuilder.ToString();
         }
+        public async Task<UserModel> DeleteUser(int id)
+        {
+            return await userRepository.DeleteAsync(id);
+        }
     }
 }

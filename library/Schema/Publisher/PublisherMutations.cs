@@ -23,5 +23,10 @@ namespace Library.Schema.Publisher
             await publisherRepository.CreateAsync(publisherModel);
             return publisherModel;
         }
+
+        public async Task<PublisherModel> DeletePublisher(int id)
+        {
+            return await publisherRepository.DeleteAsync(id);
+        }
     }
 }

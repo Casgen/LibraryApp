@@ -47,19 +47,24 @@ namespace Library.Schema
 
             // Publisher Mutations
             descriptor.Field<PublisherMutations>(x => x.CreatePublisher(default)).Argument("publisherModel", x => x.Type<PublisherInputType>());
+            descriptor.Field<PublisherMutations>(x => x.DeletePublisher(default));
 
             // Reservation Mutations
             descriptor.Field<ReservationMutations>(x => x.CreateReservation(default)).Argument("reservationModel", x => x.Type<ReservationInputType>());
+            descriptor.Field<ReservationMutations>(x => x.DeleteReservation(default));
 
             // Review Mutations
             descriptor.Field<ReviewMutations>(x => x.CreateReview(default)).Argument("reviewModel", x => x.Type<ReviewInputType>());
+            descriptor.Field<ReviewMutations>(x => x.DeleteReview(default));
 
             // Role Mutations
             descriptor.Field<RoleMutations>(x => x.CreateRole(default)).Argument("roleModel", x => x.Type<RoleInputType>());
+            descriptor.Field<RoleMutations>(x => x.DeleteRole(default));
 
             // User Mutations
             descriptor.Field<UserMutations>(x => x.Register(default)).Argument("userModel", x => x.Type<UserInputType>());
             descriptor.Field<UserMutations>(x => x.Login(default,default)).Argument("userModel", x => x.Type<UserInputType>());
+            descriptor.Field<UserMutations>(x => x.DeleteUser(default));
         }
     }
 }

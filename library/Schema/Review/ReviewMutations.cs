@@ -23,5 +23,9 @@ namespace Library.Schema.Review
             await reviewRepository.CreateAsync(reviewModel);
             return reviewModel;
         }
+        public async Task<ReviewModel> DeleteReview(int id)
+        {
+            return await reviewRepository.DeleteAsync(id);
+        }
     }
 }
