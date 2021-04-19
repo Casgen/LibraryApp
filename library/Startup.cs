@@ -59,7 +59,8 @@ namespace library
                 .AddScoped<AuthorMutations>();
             services.AddScoped<BookRepository>()
                 .AddScoped<BookQueries>()
-                .AddScoped<BookMutations>();
+                .AddScoped<BookMutations>()
+                .AddScoped<BookType>();
             services.AddScoped<CategoryRepository>()
                 .AddScoped<CategoryQueries>()
                 .AddScoped<CategoryMutations>();
