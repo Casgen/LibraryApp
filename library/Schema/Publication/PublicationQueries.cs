@@ -18,13 +18,13 @@ namespace Library.Schema.Publication
             this.publicationRepository = publicationRepository;
         }
 
-        public async Task<PublicationModel> GetPublicaton(int id)
+        public async Task<PublicationModel> GetPublication(int id)
         {
             PublicationModel publication = await publicationRepository.GetByIdAsync(id);
             return publication;
         }
 
-        public async Task<List<PublicationModel>> GetPublications(List<String> urls)
+        public async Task<List<PublicationModel>> GetPublications()
         {
             List<PublicationModel> publications = (List<PublicationModel>) await publicationRepository.GetAllAsync();
             return publications;

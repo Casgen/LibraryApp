@@ -25,6 +25,7 @@ using Library.Schema.Reservation;
 using Library.Schema.Review;
 using Library.Schema.Role;
 using Library.Schema.User;
+using Library.Schema;
 
 namespace library
 {
@@ -40,55 +41,11 @@ namespace library
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            // services.AddControllers();
 
             services.AddGraphQLServer()
-                .AddQueryType(x => x.Name("RootQuery"))
-                    .AddTypeExtension<BookQueries>()
-                        .AddType<BookType>()
-                    .AddTypeExtension<PublisherQueries>()
-                        .AddType<PublisherType>()
-                    .AddTypeExtension<ReservationQueries>()
-                        .AddType<ReservationType>()
-                    .AddTypeExtension<ReviewQueries>()
-                        .AddType<ReviewType>()
-                    .AddTypeExtension<RoleQueries>()
-                        .AddType<RoleType>()
-                    .AddTypeExtension<UserQueries>()
-                        .AddType<UserType>()
-                    .AddTypeExtension<AuthorQueries>()
-                        .AddType<AuthorType>()
-                    .AddTypeExtension<CategoryQueries>()
-                        .AddType<CategoryType>()
-                    .AddTypeExtension<ImageQueries>()
-                        .AddType<ImageType>()
-                    .AddTypeExtension<MagazineQueries>()
-                        .AddType<MagazineType>()
-                    .AddTypeExtension<PublicationQueries>()
-                        .AddType<PublicationType>()
-                .AddMutationType(x => x.Name("MutationQuery"))
-                    .AddTypeExtension<BookMutations>()
-                        .AddType<BookInputType>()
-                    .AddTypeExtension<PublisherMutations>()
-                        .AddType<PublisherInputType>()
-                    .AddTypeExtension<ReservationMutations>()
-                        .AddType<ReservationInputType>()
-                    .AddTypeExtension<ReviewMutations>()
-                        .AddType<ReviewInputType>()
-                    .AddTypeExtension<RoleMutations>()
-                        .AddType<RoleInputType>()
-                    .AddTypeExtension<UserMutations>()
-                        .AddType<UserInputType>()
-                    .AddTypeExtension<AuthorMutations>()
-                        .AddType<AuthorInputType>()
-                    .AddTypeExtension<CategoryMutations>()
-                        .AddType<CategoryInputType>()
-                    .AddTypeExtension<ImageMutations>()
-                        .AddType<ImageInputType>()
-                    .AddTypeExtension<MagazineMutations>()
-                        .AddType<MagazineInputType>()
-                    .AddTypeExtension<PublicationMutations>()
-                        .AddType<PublicationInputType>();
+                .AddQueryType<RootQuery>()
+                .AddMutationType<RootMutation>();
 
 
             services.AddDbContext<LibraryDbContext>(options =>
@@ -96,17 +53,40 @@ namespace library
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
             });
 
-            services.AddTransient<AuthorRepository>();
-            services.AddTransient<BookRepository>();
-            services.AddTransient<CategoryRepository>();
-            services.AddTransient<ImageRepository>();
-            services.AddTransient<MagazineRepository>();
-            services.AddTransient<PublicationRepository>();
-            services.AddTransient<PublisherRepository>();
-            services.AddTransient<ReservationRepository>();
-            services.AddTransient<ReviewRepository>();
-            services.AddTransient<RoleRepository>();
-            services.AddTransient<UserRepository>();
+
+            services.AddScoped<AuthorRepository>()
+                .AddScoped<AuthorQueries>()
+                .AddScoped<AuthorMutations>();
+            services.AddScoped<BookRepository>()
+                .AddScoped<BookQueries>()
+                .AddScoped<BookMutations>();
+            services.AddScoped<CategoryRepository>()
+                .AddScoped<CategoryQueries>()
+                .AddScoped<CategoryMutations>();
+            services.AddScoped<ImageRepository>()
+                .AddScoped<ImageQueries>()
+                .AddScoped<ImageMutations>();
+            services.AddScoped<MagazineRepository>()
+                .AddScoped<MagazineQueries>()
+                .AddScoped<MagazineMutations>();
+            services.AddScoped<PublicationRepository>()
+                .AddScoped<PublicationQueries>()
+                .AddScoped<PublicationMutations>();
+            services.AddScoped<PublisherRepository>()
+                .AddScoped<PublisherQueries>()
+                .AddScoped<PublisherMutations>();
+            services.AddScoped<ReservationRepository>()
+                .AddScoped<ReservationQueries>()
+                .AddScoped<ReservationMutations>();
+            services.AddScoped<ReviewRepository>()
+                .AddScoped<ReviewQueries>()
+                .AddScoped<ReviewMutations>();
+            services.AddScoped<RoleRepository>()
+                .AddScoped<RoleQueries>()
+                .AddScoped<RoleMutations>();
+            services.AddScoped<UserRepository>()
+                .AddScoped<UserQueries>()
+                .AddScoped<UserMutations>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -121,7 +101,7 @@ namespace library
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app
                 .UseRouting()

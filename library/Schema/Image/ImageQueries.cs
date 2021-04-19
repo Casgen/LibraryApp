@@ -5,7 +5,7 @@ using DataLayer.Models;
 using DataLayer.Repository;
 using HotChocolate.Types;
 
-namespace Library.Schema.Category
+namespace Library.Schema.Image
 {
     [ExtendObjectType(Name = "RootQuery")]
     public class ImageQueries
@@ -21,7 +21,7 @@ namespace Library.Schema.Category
             ImageModel image = await imageRepository.GetByIdAsync(id);
             return image;
         }
-        public async Task<List<ImageModel>> GetImages(List<String> urls)
+        public async Task<List<ImageModel>> GetImages()
         {
             List<ImageModel> images = (List<ImageModel>) await imageRepository.GetAllAsync();
             return images;

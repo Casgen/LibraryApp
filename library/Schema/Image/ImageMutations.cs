@@ -15,7 +15,7 @@ namespace Library.Schema.Category
             this.imageRepository = imageRepository;
         }
 
-        public async Task<ImageModel> CreateBook(ImageModel imageModel)
+        public async Task<ImageModel> CreateImage(ImageModel imageModel)
         {
             await imageRepository.CreateAsync(imageModel);
             return imageModel;

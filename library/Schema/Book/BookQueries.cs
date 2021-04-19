@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DataLayer.Models;
 using DataLayer.Repository;
+using HotChocolate;
 using HotChocolate.Types;
 
 namespace Library.Schema.Book
 {
-    [ExtendObjectType(Name = "RootQuery")]
     public class BookQueries
     {
         private readonly BookRepository bookRepository;
@@ -21,7 +21,7 @@ namespace Library.Schema.Book
             BookModel book = await bookRepository.GetByIdAsync(id);
             return book;
         }
-        public async Task<List<BookModel>> GetBooks(List<String> urls)
+        public async Task<List<BookModel>> GetBooks()
         {
             List<BookModel> books = (List<BookModel>) await bookRepository.GetAllAsync();
             return books;

@@ -24,7 +24,7 @@ namespace Library.Schema.Magazine
             return magazine;
         }
 
-        public async Task<List<MagazineModel>> GetMagazines(List<String> urls)
+        public async Task<List<MagazineModel>> GetMagazines()
         {
             List<MagazineModel> magazines = (List<MagazineModel>) await magazineRepository.GetAllAsync();
             return magazines;

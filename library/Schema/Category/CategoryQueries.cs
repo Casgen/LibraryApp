@@ -21,7 +21,7 @@ namespace Library.Schema.Category
             CategoryModel category = await categoryRepository.GetByIdAsync(id);
             return category;
         }
-        public async Task<List<CategoryModel>> GetCategories(List<String> urls)
+        public async Task<List<CategoryModel>> GetCategories()
         {
             List<CategoryModel> categories = (List<CategoryModel>) await categoryRepository.GetAllAsync();
             return categories;

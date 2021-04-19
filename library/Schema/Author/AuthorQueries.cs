@@ -24,7 +24,7 @@ namespace Library.Schema.Author
             return author;
         }
 
-        public async Task<List<AuthorModel>> GetAuthors(List<String> urls)
+        public async Task<List<AuthorModel>> GetAuthors()
         {
             List<AuthorModel> authors = (List<AuthorModel>) await authorRepository.GetAllAsync();
             return authors;
