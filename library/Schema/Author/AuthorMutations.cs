@@ -23,5 +23,11 @@ namespace Library.Schema.Author
             await authorRepository.CreateAsync(authorModel);
             return authorModel;
         }
+
+        public async Task<AuthorModel> DeleteAuthor(int id)
+        {
+            AuthorModel authorModel = await authorRepository.DeleteAsync(id);
+            return authorModel;
+        }
     }
 }

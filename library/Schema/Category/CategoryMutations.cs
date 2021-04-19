@@ -20,5 +20,11 @@ namespace Library.Schema.Category
             await categoryRepository.CreateAsync(categoryModel);
             return categoryModel;
         }
+
+        public async Task<CategoryModel> DeleteCategory(int id)
+        {
+            CategoryModel categoryModel = await categoryRepository.DeleteAsync(id);
+            return categoryModel;
+        }
     }
 }

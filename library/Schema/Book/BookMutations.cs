@@ -24,5 +24,12 @@ namespace Library.Schema.Book
             await bookRepository.CreateAsync(bookModel);
             return bookModel;
         }
+
+        public async Task<BookModel> DeleteBook(int id)
+        {
+            BookModel bookModel = await bookRepository.DeleteAsync(id);
+            return bookModel;
+        }
+
     }
 }

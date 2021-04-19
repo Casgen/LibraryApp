@@ -20,5 +20,11 @@ namespace Library.Schema.Category
             await imageRepository.CreateAsync(imageModel);
             return imageModel;
         }
+
+        public async Task<ImageModel> DeleteImage(int id)
+        {
+            ImageModel imageModel = await imageRepository.DeleteAsync(id);
+            return imageModel;
+        }
     }
 }

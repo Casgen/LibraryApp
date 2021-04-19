@@ -24,5 +24,11 @@ namespace Library.Schema.Publication
             return publicationModel;
         }
 
+        public async Task<PublicationModel> DeletePublication(int id)
+        {
+            PublicationModel publicationModel = await publicationRepository.DeleteAsync(id);
+            return publicationModel;
+        }
+
     }
 }

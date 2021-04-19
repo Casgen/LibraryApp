@@ -23,21 +23,27 @@ namespace Library.Schema
         {
             // Author Mutations
             descriptor.Field<AuthorMutations>(x => x.CreateAuthor(default)).Argument("authorModel", x=>x.Type<AuthorInputType>());
+            descriptor.Field<AuthorMutations>(x => x.DeleteAuthor(default));
 
             // Book Mutations
             descriptor.Field<BookMutations>(x => x.CreateBook(default)).Argument("bookModel", x => x.Type<BookInputType>());
+            descriptor.Field<BookMutations>(x => x.DeleteBook(default));
 
             // Category Mutations
             descriptor.Field<CategoryMutations>(x => x.CreateCategory(default)).Argument("categoryModel", x => x.Type<CategoryInputType>());
+            descriptor.Field<CategoryMutations>(x => x.DeleteCategory(default));
 
             // Image Mutations
             descriptor.Field<ImageMutations>(x => x.CreateImage(default)).Argument("imageModel", x => x.Type<ImageInputType>());
+            descriptor.Field<ImageMutations>(x => x.DeleteImage(default));
 
             // Magazine Mutations
             descriptor.Field<MagazineMutations>(x => x.CreateMagazine(default)).Argument("magazineModel", x => x.Type<MagazineInputType>());
+            descriptor.Field<MagazineMutations>(x => x.DeleteMagazine(default));
 
             // Publication Mutations
             descriptor.Field<PublicationMutations>(x => x.CreatePublication(default)).Argument("publicationModel", x => x.Type<PublicationInputType>());
+            descriptor.Field<PublicationMutations>(x => x.DeletePublication(default)).Argument("publicationModel", x => x.Type<PublicationInputType>());
 
             // Publisher Mutations
             descriptor.Field<PublisherMutations>(x => x.CreatePublisher(default)).Argument("publisherModel", x => x.Type<PublisherInputType>());
