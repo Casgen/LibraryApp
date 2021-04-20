@@ -12,6 +12,7 @@ namespace Library.Schema.Review
         protected override void Configure(IInputObjectTypeDescriptor<ReviewModel> descriptor)
         {
             descriptor.Field(b => b.Id).Type<IdType>();
+            descriptor.Field(b => b.User).Ignore();
         }
     }
 }

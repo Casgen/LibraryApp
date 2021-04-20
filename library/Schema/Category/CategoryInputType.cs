@@ -9,7 +9,6 @@ namespace Library.Schema.Category
         {
             descriptor.Field(b => b.Id).Type<IdType>();
             descriptor.Field(b => b.Name).Type<StringType>();
-            //descriptor.Field(b => b.AuthorId).Type<DecimalType>();
         }
     }
 }

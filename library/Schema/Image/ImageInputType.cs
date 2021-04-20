@@ -9,7 +9,6 @@ namespace Library.Schema.Image
         {
             descriptor.Field(b => b.Id).Type<IdType>();
             descriptor.Field(b => b.FileExtension).Type<StringType>();
-            //descriptor.Field(b => b.AuthorId).Type<DecimalType>();
         }
     }
 }
