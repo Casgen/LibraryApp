@@ -49,6 +49,7 @@ namespace library
             services.AddGraphQLServer()
                 .AddQueryType<RootQuery>()
                 .AddMutationType<RootMutation>()
+                .AddAuthorization()
                 .AddDataLoader<AuthorByIdDataLoader>();
 
             services.AddHttpContextAccessor();
