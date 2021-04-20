@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataLayer.Migrations
 {
-    public partial class InitDB : Migration
+    public partial class al : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -146,8 +146,8 @@ namespace DataLayer.Migrations
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     ImageId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BookId = table.Column<int>(type: "int", nullable: false),
-                    MagazineId = table.Column<int>(type: "int", nullable: false)
+                    BookId = table.Column<int>(type: "int", nullable: true),
+                    MagazineId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -157,7 +157,7 @@ namespace DataLayer.Migrations
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Publications_Categories_CategoryId",
                         column: x => x.CategoryId,
@@ -175,7 +175,7 @@ namespace DataLayer.Migrations
                         column: x => x.MagazineId,
                         principalTable: "Magazines",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -243,7 +243,9 @@ namespace DataLayer.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Publications_BookId",
                 table: "Publications",
-                column: "BookId");
+                column: "BookId",
+                unique: true,
+                filter: "[BookId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Publications_CategoryId",

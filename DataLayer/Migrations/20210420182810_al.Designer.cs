@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    [Migration("20210420152400_InitDB")]
-    partial class InitDB
+    [Migration("20210420182810_al")]
+    partial class al
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -143,7 +143,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BookId")
+                    b.Property<int?>("BookId")
                         .HasColumnType("int");
 
                     b.Property<int>("CategoryId")
@@ -156,7 +156,7 @@ namespace DataLayer.Migrations
                     b.Property<int>("ImageId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MagazineId")
+                    b.Property<int?>("MagazineId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -168,7 +168,9 @@ namespace DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookId");
+                    b.HasIndex("BookId")
+                        .IsUnique()
+                        .HasFilter("[BookId] IS NOT NULL");
 
                     b.HasIndex("CategoryId");
 
@@ -324,13 +326,11 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DataLayer.Models.PublicationModel", b =>
                 {
                     b.HasOne("DataLayer.Models.BookModel", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithOne("Publication")
+                        .HasForeignKey("DataLayer.Models.PublicationModel", "BookId");
 
                     b.HasOne("DataLayer.Models.CategoryModel", "Category")
-                        .WithMany("Publications")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -343,9 +343,7 @@ namespace DataLayer.Migrations
 
                     b.HasOne("DataLayer.Models.MagazineModel", "Magazine")
                         .WithMany()
-                        .HasForeignKey("MagazineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MagazineId");
 
                     b.Navigation("Book");
 
@@ -405,9 +403,9 @@ namespace DataLayer.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.CategoryModel", b =>
+            modelBuilder.Entity("DataLayer.Models.BookModel", b =>
                 {
-                    b.Navigation("Publications");
+                    b.Navigation("Publication");
                 });
 
             modelBuilder.Entity("DataLayer.Models.PublicationModel", b =>

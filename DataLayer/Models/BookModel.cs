@@ -19,6 +19,6 @@ namespace DataLayer.Models
         public int Quantity { get; set; }
         [Required]
         public virtual AuthorModel Author { get; set; }
-
+        public virtual PublicationModel Publication { get; set; }
     }
 }
