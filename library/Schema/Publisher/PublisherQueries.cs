@@ -1,6 +1,9 @@
-﻿using DataLayer.Models;
+﻿using DataLayer;
+using DataLayer.Models;
 using DataLayer.Repository;
+using HotChocolate;
 using HotChocolate.Types;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,23 +11,16 @@ using System.Threading.Tasks;
 
 namespace Library.Schema.Publisher
 {
-    [ExtendObjectType(Name = "RootQuery")]
     public class PublisherQueries
     {
-        private readonly PublisherRepository publisherRepository;
-
-        public PublisherQueries(PublisherRepository publisherRepository)
+        public async Task<PublisherModel> GetPublisher(int id, [ScopedService] LibraryDbContext context)
         {
-            this.publisherRepository = publisherRepository;
-        }
-        public async Task<PublisherModel> GetPublisher(int id)
-        {
-            PublisherModel publisher = await publisherRepository.GetByIdAsync(id);
+            PublisherModel publisher = await context.Publishers.FindAsync(id);
             return publisher;
         }
-        public async Task<List<PublisherModel>> GetPublishers()
+        public async Task<List<PublisherModel>> GetPublishers([ScopedService] LibraryDbContext context)
         {
-            List<PublisherModel> publishers = (List<PublisherModel>) await publisherRepository.GetAllAsync();
+            List<PublisherModel> publishers = await context.Publishers.ToListAsync();
             return publishers;
         }
     }

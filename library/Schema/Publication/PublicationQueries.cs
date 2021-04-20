@@ -2,31 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataLayer;
 using DataLayer.Models;
 using DataLayer.Repository;
+using HotChocolate;
 using HotChocolate.Types;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Schema.Publication
 {
-    [ExtendObjectType(Name = "RootQuery")]
     public class PublicationQueries
     {
-        private readonly PublicationRepository publicationRepository;
-
-        public PublicationQueries(PublicationRepository publicationRepository)
+        public async Task<PublicationModel> GetPublication(int id, [ScopedService] LibraryDbContext context)
         {
-            this.publicationRepository = publicationRepository;
-        }
-
-        public async Task<PublicationModel> GetPublication(int id)
-        {
-            PublicationModel publication = await publicationRepository.GetByIdAsync(id);
+            PublicationModel publication = await context.Publications.FindAsync(id);
             return publication;
         }
 
-        public async Task<List<PublicationModel>> GetPublications()
+        public async Task<List<PublicationModel>> GetPublications([ScopedService] LibraryDbContext context)
         {
-            List<PublicationModel> publications = (List<PublicationModel>) await publicationRepository.GetAllAsync();
+            List<PublicationModel> publications = await context.Publications.ToListAsync();
             return publications;
         }
 

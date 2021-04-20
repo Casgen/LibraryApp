@@ -2,31 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataLayer;
 using DataLayer.Models;
 using DataLayer.Repository;
+using HotChocolate;
 using HotChocolate.Types;
 
 namespace Library.Schema.Reservation
 {
-    [ExtendObjectType("MutationQuery")]
     public class ReservationMutations
     {
-        private readonly ReservationRepository reservationRepository;
-
-        public ReservationMutations(ReservationRepository reservationRepository)
+        public async Task<ReservationModel> CreateReservation(ReservationModel reservationModel, [ScopedService] LibraryDbContext context)
         {
-            this.reservationRepository = reservationRepository;
-        }
-
-        public async Task<ReservationModel> CreateReservation(ReservationModel reservationModel)
-        {
-            await reservationRepository.CreateAsync(reservationModel);
+            await context.Reservations.AddAsync(reservationModel);
             return reservationModel;
         }
 
-        public async Task<ReservationModel> DeleteReservation(int id)
+        public async Task<ReservationModel> DeleteReservation(int id, [ScopedService] LibraryDbContext context)
         {
-            return await reservationRepository.DeleteAsync(id);
+            ReservationModel reservationModel = await context.Reservations.FindAsync(id);
+            context.Reservations.Remove(reservationModel);
+            await context.SaveChangesAsync();
+            return reservationModel;
         }
     }
 }

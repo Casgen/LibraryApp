@@ -22,49 +22,49 @@ namespace Library.Schema
     {
         protected override void Configure(IObjectTypeDescriptor descriptor)
         {
-            // Publisher Queires
-            descriptor.Field<AuthorQueries>(x => x.GetAuthor(default)).Type<AuthorType>();
-            descriptor.Field<AuthorQueries>(x => x.GetAuthors()).Type<ListType<AuthorType>>();
+            // Author Queires
+            descriptor.Field<AuthorQueries>(x => x.GetAuthor(default, default)).UseDbContext<LibraryDbContext>().Type<AuthorType>();
+            descriptor.Field<AuthorQueries>(x => x.GetAuthors(default)).UseDbContext<LibraryDbContext>().Type<ListType<AuthorType>>();
 
-            // Book Queries
-            descriptor.Field<BookQueries>(x => x.GetBook(default)).Type<BookType>();
-            descriptor.Field<BookQueries>(x => x.GetBooks()).Type<ListType<BookType>>();
+            //// Book Queries
+            descriptor.Field<BookQueries>(x => x.GetBook(default, default)).UseDbContext<LibraryDbContext>().Type<BookType>();
+            descriptor.Field<BookQueries>(x => x.GetBooks(default)).UseDbContext<LibraryDbContext>().Type<ListType<BookType>>();
 
             // Category Queires
-            descriptor.Field<CategoryQueries>(x => x.GetCategory(default)).Type<CategoryType>();
-            descriptor.Field<CategoryQueries>(x => x.GetCategories()).Type<ListType<CategoryType>>();
+            descriptor.Field<CategoryQueries>(x => x.GetCategory(default, default)).UseDbContext<LibraryDbContext>().Type<CategoryType>();
+            descriptor.Field<CategoryQueries>(x => x.GetCategories(default)).UseDbContext<LibraryDbContext>().Type<ListType<CategoryType>>();
 
             // Image Queires
-            descriptor.Field<ImageQueries>(x => x.GetImage(default)).Type<ImageType>();
-            descriptor.Field<ImageQueries>(x => x.GetImages()).Type<ListType<ImageType>>();
+            descriptor.Field<ImageQueries>(x => x.GetImage(default, default)).UseDbContext<LibraryDbContext>().Type<ImageType>();
+            descriptor.Field<ImageQueries>(x => x.GetImages(default)).UseDbContext<LibraryDbContext>().Type<ListType<ImageType>>();
 
             // Magazine Queires
-            descriptor.Field<MagazineQueries>(x => x.GetMagazine(default)).Type<MagazineType>();
-            descriptor.Field<MagazineQueries>(x => x.GetMagazines()).Type<ListType<MagazineType>>();
+            descriptor.Field<MagazineQueries>(x => x.GetMagazine(default, default)).UseDbContext<LibraryDbContext>().Type<MagazineType>();
+            descriptor.Field<MagazineQueries>(x => x.GetMagazines(default)).UseDbContext<LibraryDbContext>().Type<ListType<MagazineType>>();
 
             // Publication Queires
-            descriptor.Field<PublicationQueries>(x => x.GetPublication(default)).Type<PublicationType>();
-            descriptor.Field<PublicationQueries>(x => x.GetPublications()).Type<ListType<PublicationType>>();
+            descriptor.Field<PublicationQueries>(x => x.GetPublication(default, default)).UseDbContext<LibraryDbContext>().Type<PublicationType>();
+            descriptor.Field<PublicationQueries>(x => x.GetPublications(default)).UseDbContext<LibraryDbContext>().Type<ListType<PublicationType>>();
 
             // Publisher Queires
-            descriptor.Field<PublisherQueries>(x => x.GetPublisher(default)).Type<PublisherType>();
-            descriptor.Field<PublisherQueries>(x => x.GetPublishers()).Type<ListType<PublisherType>>();
+            descriptor.Field<PublisherQueries>(x => x.GetPublisher(default, default)).UseDbContext<LibraryDbContext>().Type<PublisherType>();
+            descriptor.Field<PublisherQueries>(x => x.GetPublishers(default)).UseDbContext<LibraryDbContext>().Type<ListType<PublisherType>>();
 
             // Reservation Queires
-            descriptor.Field<ReservationQueries>(x => x.GetReservation(default)).Type<ReservationType>();
-            descriptor.Field<ReservationQueries>(x => x.GetReservations()).Type<ListType<ReservationType>>();
+            descriptor.Field<ReservationQueries>(x => x.GetReservation(default, default)).UseDbContext<LibraryDbContext>().Type<ReservationType>();
+            descriptor.Field<ReservationQueries>(x => x.GetReservations(default)).UseDbContext<LibraryDbContext>().Type<ListType<ReservationType>>();
 
             // Review Queires
-            descriptor.Field<ReviewQueries>(x => x.GetReview(default)).Type<ReviewType>();
-            descriptor.Field<ReviewQueries>(x => x.GetReviews()).Type<ListType<ReviewType>>();
+            descriptor.Field<ReviewQueries>(x => x.GetReview(default, default)).UseDbContext<LibraryDbContext>().Type<ReviewType>();
+            descriptor.Field<ReviewQueries>(x => x.GetReviews(default)).UseDbContext<LibraryDbContext>().Type<ListType<ReviewType>>();
 
             // Role Queires
-            descriptor.Field<RoleQueries>(x => x.GetRole(default)).Type<RoleType>();
-            descriptor.Field<RoleQueries>(x => x.GetRoles()).Type<ListType<RoleType>>();
+            descriptor.Field<RoleQueries>(x => x.GetRole(default, default)).UseDbContext<LibraryDbContext>().Type<RoleType>();
+            descriptor.Field<RoleQueries>(x => x.GetRoles(default)).UseDbContext<LibraryDbContext>().Type<ListType<RoleType>>();
 
             // User Queires
-            descriptor.Field<UserQueries>(x => x.GetUser(default)).Type<UserType>();
-            descriptor.Field<UserQueries>(x => x.GetUsers()).Type<ListType<UserType>>();
+            descriptor.Field<UserQueries>(x => x.GetUser(default, default)).UseDbContext<LibraryDbContext>().Type<UserType>();
+            descriptor.Field<UserQueries>(x => x.GetUsers(default)).UseDbContext<LibraryDbContext>().Type<ListType<UserType>>();
         }
     }
 }

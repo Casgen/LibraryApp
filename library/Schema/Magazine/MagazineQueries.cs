@@ -2,31 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataLayer;
 using DataLayer.Models;
 using DataLayer.Repository;
+using HotChocolate;
 using HotChocolate.Types;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Schema.Magazine
 {
-    [ExtendObjectType(Name = "RootQuery")]
     public class MagazineQueries
     {
-        private readonly MagazineRepository magazineRepository;
-
-        public MagazineQueries(MagazineRepository magazineRepository)
+        public async Task<MagazineModel> GetMagazine(int id, [ScopedService] LibraryDbContext context)
         {
-            this.magazineRepository = magazineRepository;
-        }
-
-        public async Task<MagazineModel> GetMagazine(int id)
-        {
-            MagazineModel magazine = await magazineRepository.GetByIdAsync(id);
+            MagazineModel magazine = await context.Magazines.FindAsync(id);
             return magazine;
         }
 
-        public async Task<List<MagazineModel>> GetMagazines()
+        public async Task<List<MagazineModel>> GetMagazines([ScopedService] LibraryDbContext context)
         {
-            List<MagazineModel> magazines = (List<MagazineModel>) await magazineRepository.GetAllAsync();
+            List<MagazineModel> magazines = await context.Magazines.ToListAsync();
             return magazines;
         }
     }

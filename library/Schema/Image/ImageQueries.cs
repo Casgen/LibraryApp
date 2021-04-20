@@ -1,29 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DataLayer;
 using DataLayer.Models;
 using DataLayer.Repository;
+using HotChocolate;
 using HotChocolate.Types;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Schema.Image
 {
-    [ExtendObjectType(Name = "RootQuery")]
     public class ImageQueries
     {
-        private readonly ImageRepository imageRepository;
-
-        public ImageQueries(ImageRepository imageRepository)
+        public async Task<ImageModel> GetImage(int id, [ScopedService] LibraryDbContext context)
         {
-            this.imageRepository = imageRepository;
-        }
-        public async Task<ImageModel> GetImage(int id)
-        {
-            ImageModel image = await imageRepository.GetByIdAsync(id);
+            ImageModel image = await context.Images.FindAsync(id);
             return image;
         }
-        public async Task<List<ImageModel>> GetImages()
+        public async Task<List<ImageModel>> GetImages([ScopedService] LibraryDbContext context)
         {
-            List<ImageModel> images = (List<ImageModel>) await imageRepository.GetAllAsync();
+            List<ImageModel> images = await context.Images.ToListAsync();
             return images;
         }
     }

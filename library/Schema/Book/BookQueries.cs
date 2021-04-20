@@ -1,30 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DataLayer;
 using DataLayer.Models;
 using DataLayer.Repository;
 using HotChocolate;
 using HotChocolate.Types;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Schema.Book
 {
     public class BookQueries
     {
-        private readonly BookRepository bookRepository;
-
-        public BookQueries(BookRepository bookRepository)
+        public async Task<BookModel> GetBook(int id, [ScopedService] LibraryDbContext context)
         {
-            this.bookRepository = bookRepository;
+            return await context.Books.FindAsync(id);
         }
-        public async Task<BookModel> GetBook(int id)
+        public Task<List<BookModel>> GetBooks([ScopedService] LibraryDbContext context)
         {
-            BookModel book = await bookRepository.GetByIdAsync(id);
-            return book;
-        }
-        public async Task<List<BookModel>> GetBooks()
-        {
-            List<BookModel> books = (List<BookModel>) await bookRepository.GetAllAsync();
-            return books;
+            return context.Books.ToListAsync();
         }
     }
 }

@@ -26,6 +26,7 @@ using Library.Schema.Review;
 using Library.Schema.Role;
 using Library.Schema.User;
 using Library.Schema;
+using Library.DataLoader;
 
 namespace library
 {
@@ -37,57 +38,22 @@ namespace library
         }
 
         public IConfiguration Configuration { get; }
+        public static readonly ILoggerFactory _loggerFactory
+                    = LoggerFactory.Create(builder => builder.AddDebug().AddFilter((category, level) => level == LogLevel.Information));
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.AddControllers();
-
             services.AddGraphQLServer()
                 .AddQueryType<RootQuery>()
-                .AddMutationType<RootMutation>();
+                .AddMutationType<RootMutation>()
+                .AddDataLoader<AuthorByIdDataLoader>();
 
-
-            services.AddDbContext<LibraryDbContext>(options =>
+            services.AddPooledDbContextFactory<LibraryDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
+                options.UseLoggerFactory(_loggerFactory);
             });
-
-
-            services.AddScoped<AuthorRepository>()
-                .AddScoped<AuthorQueries>()
-                .AddScoped<AuthorMutations>();
-            services.AddScoped<BookRepository>()
-                .AddScoped<BookQueries>()
-                .AddScoped<BookMutations>()
-                .AddScoped<BookType>();
-            services.AddScoped<CategoryRepository>()
-                .AddScoped<CategoryQueries>()
-                .AddScoped<CategoryMutations>();
-            services.AddScoped<ImageRepository>()
-                .AddScoped<ImageQueries>()
-                .AddScoped<ImageMutations>();
-            services.AddScoped<MagazineRepository>()
-                .AddScoped<MagazineQueries>()
-                .AddScoped<MagazineMutations>();
-            services.AddScoped<PublicationRepository>()
-                .AddScoped<PublicationQueries>()
-                .AddScoped<PublicationMutations>();
-            services.AddScoped<PublisherRepository>()
-                .AddScoped<PublisherQueries>()
-                .AddScoped<PublisherMutations>();
-            services.AddScoped<ReservationRepository>()
-                .AddScoped<ReservationQueries>()
-                .AddScoped<ReservationMutations>();
-            services.AddScoped<ReviewRepository>()
-                .AddScoped<ReviewQueries>()
-                .AddScoped<ReviewMutations>();
-            services.AddScoped<RoleRepository>()
-                .AddScoped<RoleQueries>()
-                .AddScoped<RoleMutations>();
-            services.AddScoped<UserRepository>()
-                .AddScoped<UserQueries>()
-                .AddScoped<UserMutations>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

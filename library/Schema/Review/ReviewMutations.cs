@@ -2,30 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataLayer;
 using DataLayer.Models;
 using DataLayer.Repository;
+using HotChocolate;
 using HotChocolate.Types;
 
 namespace Library.Schema.Review
 {
-    [ExtendObjectType("MutationQuery")]
     public class ReviewMutations
     {
-        private readonly ReviewRepository reviewRepository;
-
-        public ReviewMutations(ReviewRepository reviewRepository)
+        public async Task<ReviewModel> CreateReview(ReviewModel reviewModel, [ScopedService] LibraryDbContext context)
         {
-            this.reviewRepository = reviewRepository;
-        }
-
-        public async Task<ReviewModel> CreateReview(ReviewModel reviewModel)
-        {
-            await reviewRepository.CreateAsync(reviewModel);
+            await context.Reviews.AddAsync(reviewModel);
+            await context.SaveChangesAsync();
             return reviewModel;
         }
-        public async Task<ReviewModel> DeleteReview(int id)
+        public async Task<ReviewModel> DeleteReview(int id, [ScopedService] LibraryDbContext context)
         {
-            return await reviewRepository.DeleteAsync(id);
+            ReviewModel reviewModel = await context.Reviews.FindAsync(id);
+            context.Reviews.Remove(reviewModel);
+            await context.SaveChangesAsync();
+            return reviewModel;
         }
     }
 }

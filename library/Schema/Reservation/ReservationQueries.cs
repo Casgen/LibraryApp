@@ -1,6 +1,9 @@
-﻿using DataLayer.Models;
+﻿using DataLayer;
+using DataLayer.Models;
 using DataLayer.Repository;
+using HotChocolate;
 using HotChocolate.Types;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,23 +11,16 @@ using System.Threading.Tasks;
 
 namespace Library.Schema.Reservation
 {
-    [ExtendObjectType(Name = "RootQuery")]
     public class ReservationQueries
     {
-        private readonly ReservationRepository reservationRepository;
-
-        public ReservationQueries(ReservationRepository reservationRepository)
+        public async Task<ReservationModel> GetReservation(int id, [ScopedService] LibraryDbContext context)
         {
-            this.reservationRepository = reservationRepository;
-        }
-        public async Task<ReservationModel> GetReservation(int id)
-        {
-            ReservationModel publisher = await reservationRepository.GetByIdAsync(id);
+            ReservationModel publisher = await context.Reservations.FindAsync(id);
             return publisher;
         }
-        public async Task<List<ReservationModel>> GetReservations()
+        public async Task<List<ReservationModel>> GetReservations([ScopedService] LibraryDbContext context)
         {
-            List<ReservationModel> publishers = (List<ReservationModel>)await reservationRepository.GetAllAsync();
+            List<ReservationModel> publishers = await context.Reservations.ToListAsync();
             return publishers;
         }
     }

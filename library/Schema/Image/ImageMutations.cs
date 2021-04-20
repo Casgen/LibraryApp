@@ -1,29 +1,26 @@
 ﻿using System.Threading.Tasks;
+using DataLayer;
 using DataLayer.Models;
 using DataLayer.Repository;
+using HotChocolate;
 using HotChocolate.Types;
 
 namespace Library.Schema.Category
 {
-    [ExtendObjectType("MutationQuery")]
     public class ImageMutations
     {
-        private readonly ImageRepository imageRepository;
-
-        public ImageMutations(ImageRepository imageRepository)
+        public async Task<ImageModel> CreateImage(ImageModel imageModel, [ScopedService] LibraryDbContext context)
         {
-            this.imageRepository = imageRepository;
-        }
-
-        public async Task<ImageModel> CreateImage(ImageModel imageModel)
-        {
-            await imageRepository.CreateAsync(imageModel);
+            await context.Images.AddAsync(imageModel);
+            await context.SaveChangesAsync();
             return imageModel;
         }
 
-        public async Task<ImageModel> DeleteImage(int id)
+        public async Task<ImageModel> DeleteImage(int id, [ScopedService] LibraryDbContext context)
         {
-            ImageModel imageModel = await imageRepository.DeleteAsync(id);
+            ImageModel imageModel = await context.Images.FindAsync(id);
+            context.Images.Remove(imageModel);
+            await context.SaveChangesAsync();
             return imageModel;
         }
     }

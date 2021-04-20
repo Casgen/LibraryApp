@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    [Migration("20210414180727_test")]
-    partial class test
+    [Migration("20210420142040_a")]
+    partial class a
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -305,8 +305,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId")
-                        .IsUnique();
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -398,8 +397,8 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DataLayer.Models.UserModel", b =>
                 {
                     b.HasOne("DataLayer.Models.RoleModel", "Role")
-                        .WithOne("User")
-                        .HasForeignKey("DataLayer.Models.UserModel", "RoleId")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -420,7 +419,7 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.RoleModel", b =>
                 {
-                    b.Navigation("User");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("DataLayer.Models.UserModel", b =>

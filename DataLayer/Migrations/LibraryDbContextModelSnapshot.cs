@@ -16,7 +16,7 @@ namespace DataLayer.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("DataLayer.Models.AuthorModel", b =>
@@ -303,8 +303,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId")
-                        .IsUnique();
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -396,8 +395,8 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DataLayer.Models.UserModel", b =>
                 {
                     b.HasOne("DataLayer.Models.RoleModel", "Role")
-                        .WithOne("User")
-                        .HasForeignKey("DataLayer.Models.UserModel", "RoleId")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -418,7 +417,7 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.RoleModel", b =>
                 {
-                    b.Navigation("User");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("DataLayer.Models.UserModel", b =>

@@ -12,6 +12,6 @@ namespace DataLayer.Models
         [StringLength(30)]
         public string Name { get; set; }
 
-        public virtual UserModel User { get; set; }
+        public virtual ICollection<UserModel> Users { get; set; }
     }
 }

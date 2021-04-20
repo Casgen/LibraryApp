@@ -5,29 +5,25 @@ using System.Threading.Tasks;
 using DataLayer;
 using DataLayer.Models;
 using DataLayer.Repository;
+using HotChocolate;
 using HotChocolate.Types;
 
 namespace Library.Schema.Book
 {
-    [ExtendObjectType("MutationQuery")]
     public class BookMutations
     {
-        private readonly BookRepository bookRepository;
-
-        public BookMutations(BookRepository bookRepository)
+        public async Task<BookModel> CreateBook(BookModel bookModel, [ScopedService] LibraryDbContext context)
         {
-            this.bookRepository = bookRepository;
-        }
-
-        public async Task<BookModel> CreateBook(BookModel bookModel)
-        {
-            await bookRepository.CreateAsync(bookModel);
+            await context.Books.AddAsync(bookModel);
+            await context.SaveChangesAsync();
             return bookModel;
         }
 
-        public async Task<BookModel> DeleteBook(int id)
+        public async Task<BookModel> DeleteBook(int id, [ScopedService] LibraryDbContext context)
         {
-            BookModel bookModel = await bookRepository.DeleteAsync(id);
+            BookModel bookModel = await context.Books.FindAsync(id);
+            context.Books.Remove(bookModel);
+            await context.SaveChangesAsync();
             return bookModel;
         }
 

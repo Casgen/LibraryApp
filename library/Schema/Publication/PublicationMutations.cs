@@ -2,31 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataLayer;
 using DataLayer.Models;
 using DataLayer.Repository;
+using HotChocolate;
 using HotChocolate.Types;
 
 namespace Library.Schema.Publication
 {
-     [ExtendObjectType("MutationQuery")]
     public class PublicationMutations
     {
-        private readonly PublicationRepository publicationRepository;
-
-        public PublicationMutations(PublicationRepository publicationRepository)
+        public async Task<PublicationModel> CreatePublication(PublicationModel publicationModel, [ScopedService] LibraryDbContext context)
         {
-            this.publicationRepository = publicationRepository;
-        }
-
-        public async Task<PublicationModel> CreatePublication(PublicationModel publicationModel)
-        {
-            await publicationRepository.CreateAsync(publicationModel);
+            await context.Publications.AddAsync(publicationModel);
+            await context.SaveChangesAsync();
             return publicationModel;
         }
 
-        public async Task<PublicationModel> DeletePublication(int id)
+        public async Task<PublicationModel> DeletePublication(int id, [ScopedService] LibraryDbContext context)
         {
-            PublicationModel publicationModel = await publicationRepository.DeleteAsync(id);
+            PublicationModel publicationModel = await context.Publications.FindAsync(id);
+            context.Publications.Remove(publicationModel);
+            await context.SaveChangesAsync();
             return publicationModel;
         }
 

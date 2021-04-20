@@ -1,29 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DataLayer;
 using DataLayer.Models;
 using DataLayer.Repository;
+using HotChocolate;
 using HotChocolate.Types;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Schema.Category
 {
-    [ExtendObjectType(Name = "RootQuery")]
     public class CategoryQueries
     {
-        private readonly CategoryRepository categoryRepository;
+        public async Task<CategoryModel> GetCategory(int id, [ScopedService] LibraryDbContext context)
+        {
 
-        public CategoryQueries(CategoryRepository categoryRepository)
-        {
-            this.categoryRepository = categoryRepository;
-        }
-        public async Task<CategoryModel> GetCategory(int id)
-        {
-            CategoryModel category = await categoryRepository.GetByIdAsync(id);
+            CategoryModel category = await context.Categories.FindAsync(id);
             return category;
         }
-        public async Task<List<CategoryModel>> GetCategories()
+        public async Task<List<CategoryModel>> GetCategories([ScopedService] LibraryDbContext context)
         {
-            List<CategoryModel> categories = (List<CategoryModel>) await categoryRepository.GetAllAsync();
+            List<CategoryModel> categories = await context.Categories.ToListAsync();
             return categories;
         }
     }

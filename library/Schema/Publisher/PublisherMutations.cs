@@ -1,5 +1,7 @@
-﻿using DataLayer.Models;
+﻿using DataLayer;
+using DataLayer.Models;
 using DataLayer.Repository;
+using HotChocolate;
 using HotChocolate.Types;
 using System;
 using System.Collections.Generic;
@@ -8,25 +10,21 @@ using System.Threading.Tasks;
 
 namespace Library.Schema.Publisher
 {
-    [ExtendObjectType("MutationQuery")]
     public class PublisherMutations
     {
-        private readonly PublisherRepository publisherRepository;
-
-        public PublisherMutations(PublisherRepository publisherRepository)
+        public async Task<PublisherModel> CreatePublisher(PublisherModel publisherModel, [ScopedService] LibraryDbContext context)
         {
-            this.publisherRepository = publisherRepository;
-        }
-
-        public async Task<PublisherModel> CreatePublisher(PublisherModel publisherModel)
-        {
-            await publisherRepository.CreateAsync(publisherModel);
+            await context.Publishers.AddAsync(publisherModel);
+            await context.SaveChangesAsync();
             return publisherModel;
         }
 
-        public async Task<PublisherModel> DeletePublisher(int id)
+        public async Task<PublisherModel> DeletePublisher(int id, [ScopedService] LibraryDbContext context)
         {
-            return await publisherRepository.DeleteAsync(id);
+            PublisherModel publisherModel = await context.Publishers.FindAsync(id);
+            context.Publishers.Remove(publisherModel);
+            await context.SaveChangesAsync();
+            return publisherModel;
         }
     }
 }

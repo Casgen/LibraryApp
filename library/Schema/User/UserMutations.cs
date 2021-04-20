@@ -5,33 +5,29 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using DataLayer;
 using DataLayer.Models;
 using DataLayer.Repository;
+using HotChocolate;
 using HotChocolate.Types;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Schema.User
 {
-    [ExtendObjectType("MutationQuery")]
     public class UserMutations
     {
-        private readonly UserRepository userRepository;
-
-        public UserMutations(UserRepository userRepository)
-        {
-            this.userRepository = userRepository;
-        }
-
-        public async Task<UserModel> Register(UserModel userModel)
+        public async Task<UserModel> Register(UserModel userModel, [ScopedService] LibraryDbContext context)
         {
             userModel.Password = getHash(userModel.Password);
-            await userRepository.CreateAsync(userModel);
+            await context.Users.AddAsync(userModel);
+            await context.SaveChangesAsync();
             return userModel;
         }
 
-        public async Task<UserModel> Login(string password, string userName)
+        public async Task<UserModel> Login(string password, string userName, [ScopedService] LibraryDbContext context)
         {
-            UserModel userModel = await userRepository.GetByName(userName);
+            UserModel userModel = await context.Users.Where(x=>x.Username==userName).FirstOrDefaultAsync();
             string hashedPassword = getHash(password);
             if (!userModel.Password.Equals(hashedPassword)) return null;
             return userModel;
@@ -49,9 +45,12 @@ namespace Library.Schema.User
 
             return stringBuilder.ToString();
         }
-        public async Task<UserModel> DeleteUser(int id)
+        public async Task<UserModel> DeleteUser(int id, [ScopedService] LibraryDbContext context)
         {
-            return await userRepository.DeleteAsync(id);
+            UserModel userModel = await context.Users.FindAsync(id);
+            context.Users.Remove(userModel);
+            await context.SaveChangesAsync();
+            return userModel;
         }
     }
 }
