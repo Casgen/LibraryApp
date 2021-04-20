@@ -23,5 +23,12 @@ namespace Library.Schema.Category
             await context.SaveChangesAsync();
             return imageModel;
         }
+
+        public async Task<ImageModel> UpdateImage(ImageModel imageModel, [ScopedService] LibraryDbContext context)
+        {
+            context.Images.Update(imageModel);
+            await context.SaveChangesAsync();
+            return imageModel;
+        }
     }
 }

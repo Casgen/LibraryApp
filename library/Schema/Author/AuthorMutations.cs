@@ -26,5 +26,12 @@ namespace Library.Schema.Author
             await context.SaveChangesAsync();
             return authorModel;
         }
+
+        public async Task<AuthorModel> UpdateAuthor(AuthorModel authorModel, [ScopedService] LibraryDbContext context)
+        {
+            context.Authors.Update(authorModel);
+            await context.SaveChangesAsync();
+            return authorModel;
+        }
     }
 }

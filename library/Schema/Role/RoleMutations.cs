@@ -26,5 +26,12 @@ namespace Library.Schema.Role
             await context.SaveChangesAsync();
             return roleModel;
         }
+
+        public async Task<RoleModel> UpdateRole(RoleModel roleModel, [ScopedService] LibraryDbContext context)
+        {
+            context.Roles.Update(roleModel);
+            await context.SaveChangesAsync();
+            return roleModel;
+        }
     }
 }

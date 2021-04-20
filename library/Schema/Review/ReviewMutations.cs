@@ -25,5 +25,12 @@ namespace Library.Schema.Review
             await context.SaveChangesAsync();
             return reviewModel;
         }
+
+        public async Task<ReviewModel> UpdateReview(ReviewModel ReviewModel, [ScopedService] LibraryDbContext context)
+        {
+            context.Reviews.Update(ReviewModel);
+            await context.SaveChangesAsync();
+            return ReviewModel;
+        }
     }
 }

@@ -25,5 +25,12 @@ namespace Library.Schema.Reservation
             await context.SaveChangesAsync();
             return reservationModel;
         }
+
+        public async Task<ReservationModel> UpdateReservation(ReservationModel reservationModel, [ScopedService] LibraryDbContext context)
+        {
+            context.Reservations.Update(reservationModel);
+            await context.SaveChangesAsync();
+            return reservationModel;
+        }
     }
 }

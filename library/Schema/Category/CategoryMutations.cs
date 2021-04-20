@@ -23,5 +23,12 @@ namespace Library.Schema.Category
             await context.SaveChangesAsync();
             return categoryModel;
         }
+
+        public async Task<CategoryModel> UpdateCategory(CategoryModel categoryModel, [ScopedService] LibraryDbContext context)
+        {
+            context.Categories.Update(categoryModel);
+            await context.SaveChangesAsync();
+            return categoryModel;
+        }
     }
 }

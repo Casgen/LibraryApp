@@ -26,5 +26,12 @@ namespace Library.Schema.Publisher
             await context.SaveChangesAsync();
             return publisherModel;
         }
+
+        public async Task<PublisherModel> UpdatePublisher(PublisherModel publisherModel, [ScopedService] LibraryDbContext context)
+        {
+            context.Publishers.Update(publisherModel);
+            await context.SaveChangesAsync();
+            return publisherModel;
+        }
     }
 }

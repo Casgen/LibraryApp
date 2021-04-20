@@ -27,5 +27,12 @@ namespace Library.Schema.Publication
             return publicationModel;
         }
 
+        public async Task<PublicationModel> UpdatePublication(PublicationModel publicationModel, [ScopedService] LibraryDbContext context)
+        {
+            context.Publications.Update(publicationModel);
+            await context.SaveChangesAsync();
+            return publicationModel;
+        }
+
     }
 }

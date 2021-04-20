@@ -26,5 +26,12 @@ namespace Library.Schema.Magazine
             await context.SaveChangesAsync();
             return magazineModel;
         }
+
+        public async Task<MagazineModel> UpdateMagazine(MagazineModel magazineModel, [ScopedService] LibraryDbContext context)
+        {
+            context.Magazines.Update(magazineModel);
+            await context.SaveChangesAsync();
+            return magazineModel;
+        }
     }
 }

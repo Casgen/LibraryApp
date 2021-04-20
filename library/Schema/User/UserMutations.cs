@@ -93,5 +93,12 @@ namespace Library.Schema.User
             await context.SaveChangesAsync();
             return userModel;
         }
+
+        public async Task<UserModel> UpdateUser(UserModel userModel, [ScopedService] LibraryDbContext context)
+        {
+            context.Users.Update(userModel);
+            await context.SaveChangesAsync();
+            return userModel;
+        }
     }
 }
