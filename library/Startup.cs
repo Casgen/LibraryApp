@@ -50,7 +50,17 @@ namespace library
                 .AddQueryType<RootQuery>()
                 .AddMutationType<RootMutation>()
                 .AddAuthorization()
-                .AddDataLoader<AuthorByIdDataLoader>();
+                .AddDataLoader<AuthorByIdDataLoader>()
+                .AddDataLoader<BookByIdDataLoader>()
+                .AddDataLoader<CategoryByIdDataLoader>()
+                .AddDataLoader<ImageByIdDataLoader>()
+                .AddDataLoader<MagazineByIdDataLoader>()
+                .AddDataLoader<PublicationByIdDataLoader>()
+                .AddDataLoader<PublisherByIdDataLoader>()
+                .AddDataLoader<ReservationByIdDataLoader>()
+                .AddDataLoader<ReviewByIdDataLoader>()
+                .AddDataLoader<RoleByIdDataLoader>()
+                .AddDataLoader<UserByIdDataLoader>();
 
             services.AddHttpContextAccessor();
 
