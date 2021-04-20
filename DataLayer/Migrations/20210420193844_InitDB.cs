@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataLayer.Migrations
 {
-    public partial class al : Migration
+    public partial class InitDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -157,7 +157,7 @@ namespace DataLayer.Migrations
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Publications_Categories_CategoryId",
                         column: x => x.CategoryId,
@@ -175,7 +175,7 @@ namespace DataLayer.Migrations
                         column: x => x.MagazineId,
                         principalTable: "Magazines",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -260,7 +260,9 @@ namespace DataLayer.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Publications_MagazineId",
                 table: "Publications",
-                column: "MagazineId");
+                column: "MagazineId",
+                unique: true,
+                filter: "[MagazineId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_PublicationId",

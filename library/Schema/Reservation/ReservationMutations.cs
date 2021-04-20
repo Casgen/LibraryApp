@@ -15,6 +15,7 @@ namespace Library.Schema.Reservation
         public async Task<ReservationModel> CreateReservation(ReservationModel reservationModel, [ScopedService] LibraryDbContext context)
         {
             await context.Reservations.AddAsync(reservationModel);
+            await context.SaveChangesAsync();
             return reservationModel;
         }
 

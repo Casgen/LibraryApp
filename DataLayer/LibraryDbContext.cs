@@ -1,5 +1,4 @@
-﻿using System;
-using DataLayer.Models;
+﻿using DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer
@@ -20,5 +19,12 @@ namespace DataLayer
         public DbSet<ReviewModel> Reviews { get; set; }
         public DbSet<ReservationModel> Reservations { get; set; }
         public DbSet<CategoryModel> Categories { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<PublicationModel>().HasOne(x => x.Book).WithOne(x => x.Publication).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<PublicationModel>().HasOne(x => x.Magazine).WithOne(x => x.Publication).OnDelete(DeleteBehavior.Cascade);
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

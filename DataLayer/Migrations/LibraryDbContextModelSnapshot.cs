@@ -174,7 +174,9 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("ImageId");
 
-                    b.HasIndex("MagazineId");
+                    b.HasIndex("MagazineId")
+                        .IsUnique()
+                        .HasFilter("[MagazineId] IS NOT NULL");
 
                     b.ToTable("Publications");
                 });
@@ -325,7 +327,8 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.Models.BookModel", "Book")
                         .WithOne("Publication")
-                        .HasForeignKey("DataLayer.Models.PublicationModel", "BookId");
+                        .HasForeignKey("DataLayer.Models.PublicationModel", "BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DataLayer.Models.CategoryModel", "Category")
                         .WithMany()
@@ -340,8 +343,9 @@ namespace DataLayer.Migrations
                         .IsRequired();
 
                     b.HasOne("DataLayer.Models.MagazineModel", "Magazine")
-                        .WithMany()
-                        .HasForeignKey("MagazineId");
+                        .WithOne("Publication")
+                        .HasForeignKey("DataLayer.Models.PublicationModel", "MagazineId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Book");
 
@@ -402,6 +406,11 @@ namespace DataLayer.Migrations
                 });
 
             modelBuilder.Entity("DataLayer.Models.BookModel", b =>
+                {
+                    b.Navigation("Publication");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.MagazineModel", b =>
                 {
                     b.Navigation("Publication");
                 });

@@ -14,5 +14,7 @@ namespace DataLayer.Models
         [Required]
         public int Quantity { get; set; }
 
+        public virtual PublicationModel Publication { get; set; }
+
     }
 }
