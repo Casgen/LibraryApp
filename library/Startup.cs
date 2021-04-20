@@ -47,9 +47,10 @@ namespace library
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGraphQLServer()
+                .AddAuthorization()
+                .AddFiltering()
                 .AddQueryType<RootQuery>()
                 .AddMutationType<RootMutation>()
-                .AddAuthorization()
                 .AddDataLoader<AuthorByIdDataLoader>()
                 .AddDataLoader<BookByIdDataLoader>()
                 .AddDataLoader<CategoryByIdDataLoader>()

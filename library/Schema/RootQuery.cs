@@ -28,7 +28,7 @@ namespace Library.Schema
 
             //// Book Queries
             descriptor.Field<BookQueries>(x => x.GetBook(default, default)).UseDbContext<LibraryDbContext>().Type<BookType>();
-            descriptor.Field<BookQueries>(x => x.GetBooks(default)).UseDbContext<LibraryDbContext>().Type<ListType<BookType>>();
+            descriptor.Field<BookQueries>(x => x.GetBooks(default)).UseDbContext<LibraryDbContext>().Type<ListType<BookType>>().UseFiltering();
 
             // Category Queires
             descriptor.Field<CategoryQueries>(x => x.GetCategory(default, default)).UseDbContext<LibraryDbContext>().Type<CategoryType>();

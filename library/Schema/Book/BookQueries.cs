@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DataLayer;
 using DataLayer.Models;
@@ -16,9 +17,9 @@ namespace Library.Schema.Book
         {
             return await context.Books.FindAsync(id);
         }
-        public Task<List<BookModel>> GetBooks([ScopedService] LibraryDbContext context)
+        public IQueryable<BookModel> GetBooks([ScopedService] LibraryDbContext context)
         {
-            return context.Books.ToListAsync();
+            return context.Books;
         }
     }
 }
