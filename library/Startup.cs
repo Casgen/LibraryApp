@@ -27,6 +27,8 @@ using Library.Schema.Role;
 using Library.Schema.User;
 using Library.Schema;
 using Library.DataLoader;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 
 namespace library
 {
@@ -49,6 +51,12 @@ namespace library
                 .AddMutationType<RootMutation>()
                 .AddDataLoader<AuthorByIdDataLoader>();
 
+            services.AddHttpContextAccessor();
+
+            services.AddAuthorization();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie();
+
             services.AddPooledDbContextFactory<LibraryDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
@@ -68,7 +76,15 @@ namespace library
 
             app.UseRouting();
 
-            //app.UseAuthorization();
+            var cookiePolicyOptions = new CookiePolicyOptions
+            {
+                MinimumSameSitePolicy = SameSiteMode.Strict,
+            };
+
+            app.UseCookiePolicy(cookiePolicyOptions);
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app
                 .UseRouting()

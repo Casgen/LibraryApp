@@ -64,7 +64,7 @@ namespace Library.Schema
 
             // User Mutations
             descriptor.Field<UserMutations>(x => x.Register(default, default)).UseDbContext<LibraryDbContext>().Argument("userModel", x => x.Type<UserInputType>());
-            descriptor.Field<UserMutations>(x => x.Login(default, default, default)).UseDbContext<LibraryDbContext>().Argument("userModel", x => x.Type<UserInputType>());
+            descriptor.Field<UserMutations>(x => x.Login(default, default, default, default)).UseDbContext<LibraryDbContext>().Argument("userModel", x => x.Type<UserInputType>());
             descriptor.Field<UserMutations>(x => x.DeleteUser(default, default)).UseDbContext<LibraryDbContext>();
         }
     }

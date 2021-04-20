@@ -6,8 +6,6 @@ namespace DataLayer
 {
     public class LibraryDbContext : DbContext
     {
-
-
         public LibraryDbContext(DbContextOptions options) : base(options) { }
         public DbSet<AuthorModel> Authors { get; set; }
         public DbSet<PublisherModel> Publishers { get; set; }
