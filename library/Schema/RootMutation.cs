@@ -53,9 +53,9 @@ namespace Library.Schema
             descriptor.Field<PublicationMutations>(x => x.UpdatePublication(default, default)).UseDbContext<LibraryDbContext>().Argument("publicationModel", x => x.Type<PublicationInputType>());
 
             // Publisher Mutations
-            descriptor.Field<PublisherMutations>(x => x.CreatePublisher(default, default)).UseDbContext<LibraryDbContext>().Argument("publisherModel", x => x.Type<PublisherInputType>()).Authorize();
+            descriptor.Field<PublisherMutations>(x => x.CreatePublisher(default, default)).UseDbContext<LibraryDbContext>().Argument("publisherModel", x => x.Type<PublisherInputType>()).Authorize(new[] {"Admin"});
             descriptor.Field<PublisherMutations>(x => x.DeletePublisher(default, default)).UseDbContext<LibraryDbContext>();
-            descriptor.Field<PublisherMutations>(x => x.UpdatePublisher(default, default)).UseDbContext<LibraryDbContext>().Argument("publisherModel", x => x.Type<PublisherInputType>()).Authorize();
+            descriptor.Field<PublisherMutations>(x => x.UpdatePublisher(default, default)).UseDbContext<LibraryDbContext>().Argument("publisherModel", x => x.Type<PublisherInputType>()).Authorize(new[] {"Admin"});
 
             // Reservation Mutations
             descriptor.Field<ReservationMutations>(x => x.CreateReservation(default, default)).UseDbContext<LibraryDbContext>().Argument("reservationModel", x => x.Type<ReservationInputType>());

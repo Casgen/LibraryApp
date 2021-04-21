@@ -31,9 +31,14 @@ namespace Library.Schema.User
 
         public async Task<UserModel> Login(string password, string userName, [ScopedService] LibraryDbContext context, [Service] IHttpContextAccessor httpContextAccessor)
         {
+            UserModel userModel = await context.Users.Where(x=>x.Username==userName).Include(x=>x.Role).FirstOrDefaultAsync();
+            string hashedPassword = getHash(password);
+            if (!userModel.Password.Equals(hashedPassword)) return null;
+
             var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, userName)
+                    new Claim(ClaimTypes.Name, userName),
+                    new Claim(ClaimTypes.Role, userModel.Role.Name)
                 };
 
             var claimsIdentity = new ClaimsIdentity(
@@ -68,9 +73,6 @@ namespace Library.Schema.User
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
 
-            UserModel userModel = await context.Users.Where(x=>x.Username==userName).FirstOrDefaultAsync();
-            string hashedPassword = getHash(password);
-            if (!userModel.Password.Equals(hashedPassword)) return null;
             return userModel;
         }
 

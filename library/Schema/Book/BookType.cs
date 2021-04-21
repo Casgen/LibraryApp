@@ -30,6 +30,5 @@ namespace Library.Schema.Book
                 return await dataLoader.LoadAsync(bookModel.AuthorId, cancellationToken);
             }
         }
-
     }
 }

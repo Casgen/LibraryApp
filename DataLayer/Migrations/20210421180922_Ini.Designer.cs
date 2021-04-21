@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    [Migration("20210420193844_InitDB")]
-    partial class InitDB
+    [Migration("20210421180922_Ini")]
+    partial class Ini
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -163,6 +163,9 @@ namespace DataLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PublisherId")
+                        .HasColumnType("int");
+
                     b.Property<int>("YearOfPub")
                         .HasColumnType("int");
 
@@ -179,6 +182,8 @@ namespace DataLayer.Migrations
                     b.HasIndex("MagazineId")
                         .IsUnique()
                         .HasFilter("[MagazineId] IS NOT NULL");
+
+                    b.HasIndex("PublisherId");
 
                     b.ToTable("Publications");
                 });
@@ -349,6 +354,12 @@ namespace DataLayer.Migrations
                         .HasForeignKey("DataLayer.Models.PublicationModel", "MagazineId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("DataLayer.Models.PublisherModel", "Publisher")
+                        .WithMany("Publications")
+                        .HasForeignKey("PublisherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Book");
 
                     b.Navigation("Category");
@@ -356,6 +367,8 @@ namespace DataLayer.Migrations
                     b.Navigation("Image");
 
                     b.Navigation("Magazine");
+
+                    b.Navigation("Publisher");
                 });
 
             modelBuilder.Entity("DataLayer.Models.ReservationModel", b =>
@@ -422,6 +435,11 @@ namespace DataLayer.Migrations
                     b.Navigation("Reservation");
 
                     b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.PublisherModel", b =>
+                {
+                    b.Navigation("Publications");
                 });
 
             modelBuilder.Entity("DataLayer.Models.RoleModel", b =>

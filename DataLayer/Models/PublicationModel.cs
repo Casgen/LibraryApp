@@ -21,6 +21,9 @@ namespace DataLayer.Models
         public string Description { get; set; }
         public int? BookId { get; set; }
         public int? MagazineId { get; set; }
+        public int PublisherId { get; set; }
+
+        public virtual PublisherModel Publisher { get; set; }
         public virtual BookModel Book { get; set; }
         public virtual MagazineModel Magazine { get; set; }
         public virtual ImageModel Image { get; set; }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataLayer.Migrations
 {
-    public partial class InitDB : Migration
+    public partial class Ini : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -147,7 +147,8 @@ namespace DataLayer.Migrations
                     ImageId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BookId = table.Column<int>(type: "int", nullable: true),
-                    MagazineId = table.Column<int>(type: "int", nullable: true)
+                    MagazineId = table.Column<int>(type: "int", nullable: true),
+                    PublisherId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -174,6 +175,12 @@ namespace DataLayer.Migrations
                         name: "FK_Publications_Magazines_MagazineId",
                         column: x => x.MagazineId,
                         principalTable: "Magazines",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Publications_Publishers_PublisherId",
+                        column: x => x.PublisherId,
+                        principalTable: "Publishers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -265,6 +272,11 @@ namespace DataLayer.Migrations
                 filter: "[MagazineId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Publications_PublisherId",
+                table: "Publications",
+                column: "PublisherId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reservations_PublicationId",
                 table: "Reservations",
                 column: "PublicationId");
@@ -293,9 +305,6 @@ namespace DataLayer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Publishers");
-
-            migrationBuilder.DropTable(
                 name: "Reservations");
 
             migrationBuilder.DropTable(
@@ -318,6 +327,9 @@ namespace DataLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Magazines");
+
+            migrationBuilder.DropTable(
+                name: "Publishers");
 
             migrationBuilder.DropTable(
                 name: "Roles");
