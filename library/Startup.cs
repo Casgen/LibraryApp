@@ -34,6 +34,8 @@ namespace library
 {
     public class Startup
     {
+
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -46,6 +48,7 @@ namespace library
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddGraphQLServer()
                 .AddAuthorization()
                 .AddFiltering()
@@ -69,6 +72,15 @@ namespace library
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie();
 
+            services.AddCors(options => options.AddPolicy(name: MyAllowSpecificOrigins,
+                              builder =>
+                              {
+                                  builder.WithOrigins("http://localhost:3000",
+                                                      "http://joseff-001-site1.ctempurl.com/")
+                                  .AllowAnyHeader()
+                                  .AllowAnyMethod();
+                              }));
+            
             services.AddPooledDbContextFactory<LibraryDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
@@ -85,6 +97,11 @@ namespace library
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors(builder => builder.WithOrigins("http://localhost:3000",
+                                                      "http://joseff-001-site1.ctempurl.com/")
+                                  .AllowAnyHeader()
+                                  .AllowAnyMethod());
 
             app.UseRouting();
 
