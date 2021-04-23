@@ -1,6 +1,5 @@
 ﻿using DataLayer;
 using DataLayer.Models;
-using DataLayer.Repository;
 using HotChocolate;
 using HotChocolate.Types;
 using System;

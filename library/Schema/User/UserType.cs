@@ -17,6 +17,7 @@ namespace Library.Schema.User
         protected override void Configure(IObjectTypeDescriptor<UserModel> descriptor)
         {
             descriptor.Field(x => x.Id).Type<IdType>();
+
             descriptor.Field(x => x.Role).ResolveWith<UserResolvers>(x => x.GetRole(default, default, default));
             descriptor.Field(x => x.Reviews).ResolveWith<UserResolvers>(x => x.GetReviews(default, default, default, default)).UseDbContext<LibraryDbContext>();
             descriptor.Field(x => x.Reservations).ResolveWith<UserResolvers>(x => x.GetReservations(default, default,default, default)).UseDbContext<LibraryDbContext>();

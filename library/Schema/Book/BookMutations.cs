@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DataLayer;
+﻿using DataLayer;
 using DataLayer.Models;
-using DataLayer.Repository;
 using HotChocolate;
-using HotChocolate.Types;
+using System.Threading.Tasks;
 
 namespace Library.Schema.Book
 {

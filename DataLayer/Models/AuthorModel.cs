@@ -16,5 +16,7 @@ namespace DataLayer.Models
         public string Name { get; set; }
         [StringLength(30)]
         public string SecondName { get; set; }
+
+        public virtual ICollection<BookModel> Books { get; set; }
     }
 }

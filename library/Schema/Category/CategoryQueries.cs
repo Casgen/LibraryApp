@@ -1,12 +1,9 @@
-﻿using System;
+﻿using DataLayer;
+using DataLayer.Models;
+using HotChocolate;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DataLayer;
-using DataLayer.Models;
-using DataLayer.Repository;
-using HotChocolate;
-using HotChocolate.Types;
-using Microsoft.EntityFrameworkCore;
 
 namespace Library.Schema.Category
 {

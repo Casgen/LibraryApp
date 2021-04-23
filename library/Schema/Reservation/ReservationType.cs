@@ -17,6 +17,7 @@ namespace Library.Schema.Reservation
         protected override void Configure(IObjectTypeDescriptor<ReservationModel> descriptor)
         {
             descriptor.Field(b => b.Id).Type<IdType>();
+
             descriptor.Field(x => x.Publication).ResolveWith<ReservationResolvers>(x => x.GetPublication(default, default, default));
             descriptor.Field(x => x.User).ResolveWith<ReservationResolvers>(x => x.GetUser(default, default, default)).UseDbContext<LibraryDbContext>();
         }

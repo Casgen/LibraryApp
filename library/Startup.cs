@@ -11,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DataLayer.Repository;
 using Microsoft.EntityFrameworkCore;
 using HotChocolate;
 using Library.Schema.Author;

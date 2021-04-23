@@ -12,5 +12,7 @@ namespace DataLayer.Models
         [StringLength(50)]
         public String Name { get; set; }
 
+        public virtual ICollection<PublicationModel> Publications { get; set; }
+
     }
 }

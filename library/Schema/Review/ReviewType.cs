@@ -17,6 +17,7 @@ namespace Library.Schema.Review
         protected override void Configure(IObjectTypeDescriptor<ReviewModel> descriptor)
         {
             descriptor.Field(b => b.Id).Type<IdType>();
+
             descriptor.Field(x => x.Publication).ResolveWith<ReviewResolvers>(x => x.GetPublication(default, default, default)).UseDbContext<LibraryDbContext>();
             descriptor.Field(x => x.User).ResolveWith<ReviewResolvers>(x => x.GetUser(default, default, default)).UseDbContext<LibraryDbContext>();
         }

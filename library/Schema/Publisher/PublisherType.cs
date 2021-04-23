@@ -17,6 +17,7 @@ namespace Library.Schema.Publisher
         protected override void Configure(IObjectTypeDescriptor<PublisherModel> descriptor)
         {
             descriptor.Field(b => b.Id).Type<IdType>();
+
             descriptor.Field(x => x.Publications).ResolveWith<PublisherResolvers>(x => x.GetPublications(default, default, default, default)).UseDbContext<LibraryDbContext>();
         }
 

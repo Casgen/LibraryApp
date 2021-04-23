@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using DataLayer;
 using DataLayer.Models;
-using DataLayer.Repository;
 using HotChocolate;
 using HotChocolate.Data;
 using HotChocolate.Types;
