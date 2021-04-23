@@ -75,8 +75,7 @@ namespace library
             services.AddCors(options => options.AddPolicy(name: MyAllowSpecificOrigins,
                               builder =>
                               {
-                                  builder.WithOrigins("http://localhost:3000",
-                                                      "http://joseff-001-site1.ctempurl.com/")
+                                  builder.AllowAnyOrigin()
                                   .AllowAnyHeader()
                                   .AllowAnyMethod();
                               }));
@@ -98,8 +97,7 @@ namespace library
 
             app.UseHttpsRedirection();
 
-            app.UseCors(builder => builder.WithOrigins("http://localhost:3000",
-                                                      "http://joseff-001-site1.ctempurl.com/")
+            app.UseCors(builder => builder.AllowAnyOrigin()
                                   .AllowAnyHeader()
                                   .AllowAnyMethod());
 
