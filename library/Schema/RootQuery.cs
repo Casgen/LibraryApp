@@ -44,7 +44,7 @@ namespace Library.Schema
 
             // Publication Queires
             descriptor.Field<PublicationQueries>(x => x.GetPublication(default, default)).UseDbContext<LibraryDbContext>().Type<PublicationType>();
-            descriptor.Field<PublicationQueries>(x => x.GetPublications(default)).UseDbContext<LibraryDbContext>().Type<ListType<PublicationType>>();
+            descriptor.Field<PublicationQueries>(x => x.GetPublications(default)).UseDbContext<LibraryDbContext>().Type<ListType<PublicationType>>().UseFiltering();
 
             // Publisher Queires
             descriptor.Field<PublisherQueries>(x => x.GetPublisher(default, default)).UseDbContext<LibraryDbContext>().Type<PublisherType>();

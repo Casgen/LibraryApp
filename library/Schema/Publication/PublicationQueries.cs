@@ -18,10 +18,9 @@ namespace Library.Schema.Publication
             return publication;
         }
 
-        public async Task<List<PublicationModel>> GetPublications([ScopedService] LibraryDbContext context)
+        public IQueryable<PublicationModel> GetPublications([ScopedService] LibraryDbContext context)
         {
-            List<PublicationModel> publications = await context.Publications.ToListAsync();
-            return publications;
+            return context.Publications;
         }
 
     }
