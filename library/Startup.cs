@@ -42,7 +42,7 @@ namespace library
 
         public IConfiguration Configuration { get; }
         public static readonly ILoggerFactory _loggerFactory
-                    = LoggerFactory.Create(builder => builder.AddDebug().AddFilter((category, level) => level == LogLevel.Information));
+                    = LoggerFactory.Create(builder => builder.AddDebug().AddEventLog().AddFilter((category, level) => level == LogLevel.Information));
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -63,7 +63,8 @@ namespace library
                 .AddDataLoader<ReservationByIdDataLoader>()
                 .AddDataLoader<ReviewByIdDataLoader>()
                 .AddDataLoader<RoleByIdDataLoader>()
-                .AddDataLoader<UserByIdDataLoader>();
+                .AddDataLoader<UserByIdDataLoader>()
+                .AddErrorFilter<GraphQLErrorFilter>();
 
             services.AddHttpContextAccessor();
 
