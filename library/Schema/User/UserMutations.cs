@@ -32,7 +32,7 @@ namespace Library.Schema.User
         {
             UserModel userModel = await context.Users.Where(x=>x.Username==userName).Include(x=>x.Role).FirstOrDefaultAsync();
             string hashedPassword = getHash(password);
-            if (!userModel.Password.Equals(hashedPassword)) return null;
+            if (!userModel.Password.Equals(hashedPassword) && userModel != null) return null;
 
             var claims = new List<Claim>
                 {
