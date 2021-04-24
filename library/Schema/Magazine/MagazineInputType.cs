@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataLayer.Models;
 using HotChocolate.Types;
+using Library.Schema.Publication;
 
 namespace Library.Schema.Magazine
 {
@@ -12,6 +13,7 @@ namespace Library.Schema.Magazine
         protected override void Configure(IInputObjectTypeDescriptor<MagazineModel> descriptor)
         {
             descriptor.Field(b => b.Id).Type<IdType>();
+            descriptor.Field(b => b.Publication).Type<NonNullType<PublicationInputType>>();
         }
     }
 }

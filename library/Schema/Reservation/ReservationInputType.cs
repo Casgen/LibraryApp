@@ -15,6 +15,7 @@ namespace Library.Schema.Reservation
             descriptor.Field(b => b.DateFrom).Type<DateTimeType>();
             descriptor.Field(b => b.User).Ignore();
             descriptor.Field(b => b.Publication).Ignore();
+            descriptor.Field(b => b.Debt).Ignore();
         }
     }
 }

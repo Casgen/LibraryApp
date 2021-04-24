@@ -10,7 +10,9 @@ namespace Library.Schema.Book
         public async Task<BookModel> CreateBook(BookModel bookModel, [ScopedService] LibraryDbContext context)
         {
             await context.Books.AddAsync(bookModel);
+            await context.Publications.AddAsync(bookModel.Publication);
             await context.SaveChangesAsync();
+
             return bookModel;
         }
 

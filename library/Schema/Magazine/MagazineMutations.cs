@@ -14,6 +14,7 @@ namespace Library.Schema.Magazine
         public async Task<MagazineModel> CreateMagazine(MagazineModel magazineModel, [ScopedService] LibraryDbContext context)
         {
             await context.Magazines.AddAsync(magazineModel);
+            await context.Publications.AddAsync(magazineModel.Publication);
             await context.SaveChangesAsync();
             return magazineModel;
         }

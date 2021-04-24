@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataLayer.Models;
 using HotChocolate.Types;
+using Library.Schema.Publication;
 
 namespace Library.Schema.Book
 {
@@ -14,6 +15,7 @@ namespace Library.Schema.Book
             descriptor.Field(b => b.Id).Type<IdType>();
             descriptor.Field(b => b.ISBN).Type<StringType>();
             descriptor.Field(b => b.Author).Ignore();
+            descriptor.Field(b => b.Publication).Type<NonNullType<PublicationInputType>>();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace DataLayer.Models
@@ -16,6 +17,8 @@ namespace DataLayer.Models
         public int PublicationId { get; set; }
         [Required]
         public int UserId { get; set; }
+        [NotMapped]
+        public virtual int Debt {get; set; }
 
         public virtual UserModel User { get; set; }
         public virtual PublicationModel Publication { get; set; }
