@@ -85,6 +85,8 @@ namespace library
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
                 options.UseLoggerFactory(_loggerFactory);
             });
+
+            services.AddDataLayerServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,6 +96,8 @@ namespace library
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseDataLayerConfig();
 
             app.UseHttpsRedirection();
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataLayer;
 using DataLayer.Models;
+using DataLayer.Services;
 using HotChocolate;
 using HotChocolate.Types;
 using Quartz;
@@ -12,27 +13,28 @@ namespace Library.Schema.Reservation
 {
     public class ReservationMutations
     {
+        private readonly IScheduler scheduler;
+
+        public ReservationMutations(IScheduler scheduler)
+        {
+            this.scheduler = scheduler;
+        }
 
         public async Task<ReservationModel> CreateReservation(ReservationModel reservationModel, [ScopedService] LibraryDbContext context)
         {
             await context.Reservations.AddAsync(reservationModel);
             await context.SaveChangesAsync();
 
-            //scheduler.JobFactory = factory;
+            IJobDetail job = JobBuilder.Create<DebtUpdateJob>()
+                .UsingJobData("reservationId",reservationModel.Id)
+                .Build();
 
-            //var date = reservationModel.DateTo - reservationModel.DateFrom;
+            ITrigger trigger = TriggerBuilder.Create()
+                .StartAt((DateTime.UtcNow.AddSeconds(60)))
+                .WithSimpleSchedule(x => x.WithIntervalInSeconds(60).RepeatForever())
+                .Build();
 
-            //IJobDetail job = JobBuilder.Create<DebtUpdateJob>()
-            //    .WithIdentity("debtUpdateJob", "reservations")
-            //    .Build();
-        
-            //ITrigger trigger = TriggerBuilder.Create()
-            //    .StartAt((DateTime.UtcNow.AddSeconds(date.TotalSeconds-1)))
-            //    .WithIdentity("debtUpdateTrigger", "reservations")
-            //    .WithSimpleSchedule(x => x.WithIntervalInSeconds((int) date.TotalSeconds).RepeatForever())
-            //    .Build();
-
-            //await scheduler.ScheduleJob(job, trigger);
+            await scheduler.ScheduleJob(job, trigger);
 
             return reservationModel;
         }

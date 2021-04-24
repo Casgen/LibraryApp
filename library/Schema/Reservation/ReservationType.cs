@@ -20,7 +20,7 @@ namespace Library.Schema.Reservation
 
             descriptor.Field(x => x.Publication).ResolveWith<ReservationResolvers>(x => x.GetPublication(default, default, default));
             descriptor.Field(x => x.User).ResolveWith<ReservationResolvers>(x => x.GetUser(default, default, default)).UseDbContext<LibraryDbContext>();
-            descriptor.Field(x => x.Debt).ResolveWith<ReservationResolvers>(x => x.GetDebt(default));
+            //descriptor.Field(x => x.Debt).ResolveWith<ReservationResolvers>(x => x.GetDebt(default));
         }
 
         private class ReservationResolvers
@@ -34,12 +34,12 @@ namespace Library.Schema.Reservation
             {
                 return await dataLoader.LoadAsync(reservationModel.UserId, cancellationToken);
             }
-            public int GetDebt(ReservationModel reservationModel)
-            {
-                var remainingDate = (int) Math.Floor(DateTime.Now.Subtract(reservationModel.DateTo).TotalDays);
-                int debt = (int) Math.Ceiling((double) remainingDate/31) * 60;
-                return remainingDate>0 ? debt : 0;
-            }
+            //public int GetDebt(ReservationModel reservationModel)
+            //{
+            //    var remainingDate = (int) Math.Floor(DateTime.Now.Subtract(reservationModel.DateTo).TotalDays);
+            //    int debt = (int) Math.Ceiling((double) remainingDate/31) * 60;
+            //    return remainingDate>0 ? debt : 0;
+            //}
         }
     }
 }

@@ -17,8 +17,8 @@ namespace DataLayer.Models
         public int PublicationId { get; set; }
         [Required]
         public int UserId { get; set; }
-        [NotMapped]
-        public virtual int Debt {get; set; }
+        public double Debt {get; set; }
+        public bool BookReturned { get; set; }
 
         public virtual UserModel User { get; set; }
         public virtual PublicationModel Publication { get; set; }
