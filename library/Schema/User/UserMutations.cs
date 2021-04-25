@@ -28,6 +28,12 @@ namespace Library.Schema.User
             return userModel;
         }
 
+        public async Task<string> Logout([Service] IHttpContextAccessor httpContextAccessor)
+        {
+            await httpContextAccessor.HttpContext.SignOutAsync();
+            return httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+        }
+
         public async Task<UserModel> Login(string password, string userName, [ScopedService] LibraryDbContext context, [Service] IHttpContextAccessor httpContextAccessor)
         {
             UserModel userModel = await context.Users.Where(x=>x.Username==userName).Include(x=>x.Role).FirstOrDefaultAsync();
