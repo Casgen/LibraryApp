@@ -26,11 +26,12 @@ namespace Library.Schema.Reservation
             await context.SaveChangesAsync();
 
             IJobDetail job = JobBuilder.Create<DebtUpdateJob>()
+                .WithIdentity(reservationModel.Id + "")
                 .UsingJobData("reservationId",reservationModel.Id)
                 .Build();
 
             ITrigger trigger = TriggerBuilder.Create()
-                .StartAt((DateTime.UtcNow.AddSeconds(60)))
+                .StartNow()
                 .WithSimpleSchedule(x => x.WithIntervalInSeconds(60).RepeatForever())
                 .Build();
 
@@ -51,6 +52,13 @@ namespace Library.Schema.Reservation
         {
             context.Reservations.Update(reservationModel);
             await context.SaveChangesAsync();
+
+            if (reservationModel.BookReturned)
+            {
+                var key = new JobKey(reservationModel.Id + "");
+                await scheduler.DeleteJob(key);
+            }
+
             return reservationModel;
         }
     }

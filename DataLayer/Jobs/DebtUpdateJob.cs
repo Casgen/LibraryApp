@@ -19,17 +19,10 @@ namespace DataLayer.Jobs
             await using LibraryDbContext libraryDbContext = dbContextFactory.CreateDbContext();
             var reservation = libraryDbContext.Reservations.Find(context.JobDetail.JobDataMap.Get("reservationId"));
 
-            if (reservation.BookReturned)
-            {
-                reservation.Debt = 0;
-                await context.Scheduler.DeleteJob(context.JobDetail.Key);
-            }
-            else
-            {
-                var remainingDate = (int)Math.Floor(DateTime.Now.Subtract(reservation.DateTo).TotalDays);
-                int debt = (int)Math.Ceiling((double)remainingDate / 31) * 60;
-                reservation.Debt = remainingDate > 0 ? debt : 0;
-            }
+            var remainingDate = (int)Math.Ceiling(DateTime.Now.Subtract(reservation.DateTo).TotalDays);
+            int debt = (int)Math.Ceiling((double)remainingDate / 31) * 60;
+            reservation.Debt = remainingDate > 0 ? debt : 0;
+
             libraryDbContext.Reservations.Update(reservation);
             await libraryDbContext.SaveChangesAsync();
         }

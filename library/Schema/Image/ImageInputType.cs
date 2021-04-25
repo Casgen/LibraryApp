@@ -7,7 +7,7 @@ namespace Library.Schema.Image
     {
         protected override void Configure(IInputObjectTypeDescriptor<ImageModel> descriptor)
         {
-            descriptor.Field(b => b.Id).Ignore();
+            descriptor.Field(b => b.Id).Type<IdType>();
             descriptor.Field(b => b.FileExtension).Type<StringType>();
             descriptor.Field(b => b.Publication).Ignore();
         }

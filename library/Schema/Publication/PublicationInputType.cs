@@ -11,7 +11,7 @@ namespace Library.Schema.Publication
     {
         protected override void Configure(IInputObjectTypeDescriptor<PublicationModel> descriptor)
         {
-            descriptor.Field(b => b.Id).Ignore();
+            descriptor.Field(b => b.Id).Type<IdType>();
             descriptor.Field(b => b.Book).Ignore();
             descriptor.Field(b => b.BookId).Ignore();
             descriptor.Field(b => b.Reservation).Ignore();
