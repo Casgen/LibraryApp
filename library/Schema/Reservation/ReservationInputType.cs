@@ -11,11 +11,12 @@ namespace Library.Schema.Reservation
     {
         protected override void Configure(IInputObjectTypeDescriptor<ReservationModel> descriptor)
         {
-            descriptor.Field(b => b.Id).Type<IdType>();
+            descriptor.Field(b => b.Id).Ignore();
             descriptor.Field(b => b.DateFrom).Type<DateTimeType>();
             descriptor.Field(b => b.User).Ignore();
             descriptor.Field(b => b.Publication).Ignore();
             descriptor.Field(b => b.Debt).Ignore();
+            descriptor.Field(b => b.BookReturned).DefaultValue(false);
         }
     }
 }

@@ -15,6 +15,11 @@ namespace Library.Schema.Magazine
         {
             await context.Magazines.AddAsync(magazineModel);
             await context.Publications.AddAsync(magazineModel.Publication);
+            if (magazineModel.Publication.Image != null)
+            {
+                await context.Images.AddAsync(magazineModel.Publication.Image);
+            }
+
             await context.SaveChangesAsync();
             return magazineModel;
         }

@@ -48,7 +48,7 @@ namespace Library.Schema
             descriptor.Field<MagazineMutations>(x => x.UpdateMagazine(default, default)).UseDbContext<LibraryDbContext>().Argument("magazineModel", x => x.Type<MagazineInputType>());
 
             // Publication Mutations
-            descriptor.Field<PublicationMutations>(x => x.CreatePublication(default, default)).UseDbContext<LibraryDbContext>().Argument("publicationModel", x => x.Type<PublicationInputType>());
+            //descriptor.Field<PublicationMutations>(x => x.CreatePublication(default, default)).UseDbContext<LibraryDbContext>().Argument("publicationModel", x => x.Type<PublicationInputType>());
             descriptor.Field<PublicationMutations>(x => x.DeletePublication(default, default)).UseDbContext<LibraryDbContext>().Argument("publicationModel", x => x.Type<PublicationInputType>());
             descriptor.Field<PublicationMutations>(x => x.UpdatePublication(default, default)).UseDbContext<LibraryDbContext>().Argument("publicationModel", x => x.Type<PublicationInputType>());
 

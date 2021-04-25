@@ -13,7 +13,7 @@ namespace DataLayer.Models
         [Required]
         [StringLength(4)]
         public string FileExtension { get; set; }
-        public int PublicationId { get; set; }
+        public int? PublicationId { get; set; }
         [Required]
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }

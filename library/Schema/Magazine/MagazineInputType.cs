@@ -12,7 +12,7 @@ namespace Library.Schema.Magazine
     {
         protected override void Configure(IInputObjectTypeDescriptor<MagazineModel> descriptor)
         {
-            descriptor.Field(b => b.Id).Type<IdType>();
+            descriptor.Field(b => b.Id).Ignore();
             descriptor.Field(b => b.Publication).Type<NonNullType<PublicationInputType>>();
         }
     }

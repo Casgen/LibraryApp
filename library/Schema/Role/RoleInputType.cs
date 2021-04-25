@@ -11,7 +11,7 @@ namespace Library.Schema.Role
     {
         protected override void Configure(IInputObjectTypeDescriptor<RoleModel> descriptor)
         {
-            descriptor.Field(b => b.Id).Type<IdType>();
+            descriptor.Field(b => b.Id).Ignore();
             descriptor.Field(b => b.Users).Ignore();
         }
     }

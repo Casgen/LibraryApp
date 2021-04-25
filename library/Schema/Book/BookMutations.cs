@@ -11,6 +11,10 @@ namespace Library.Schema.Book
         {
             await context.Books.AddAsync(bookModel);
             await context.Publications.AddAsync(bookModel.Publication);
+            if (bookModel.Publication.Image != null)
+            {
+                await context.Images.AddAsync(bookModel.Publication.Image);
+            }
             await context.SaveChangesAsync();
 
             return bookModel;

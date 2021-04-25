@@ -21,7 +21,6 @@ namespace Library.Schema.Book
 
             descriptor.Field(b => b.Author).ResolveWith<BookResolvers>(b => b.GetAuthor(default, default, default));
             descriptor.Field(x => x.Publication).ResolveWith<BookResolvers>(x => x.GetPublication(default, default, default, default)).UseDbContext<LibraryDbContext>();
-            //descriptor.Field(b => b.AuthorId).Type<DecimalType>();
         }
 
         private class BookResolvers

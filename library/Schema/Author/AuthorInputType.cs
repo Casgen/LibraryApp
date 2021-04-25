@@ -11,8 +11,8 @@ namespace Library.Schema.Author
     {
         protected override void Configure(IInputObjectTypeDescriptor<AuthorModel> descriptor)
         {
-            descriptor.Field(b => b.Id).Type<IdType>();
-
+            descriptor.Field(b => b.Id).Ignore();
+            descriptor.Field(b => b.Books).Ignore();
         }
     }
 }
