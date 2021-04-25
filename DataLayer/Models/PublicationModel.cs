@@ -16,7 +16,6 @@ namespace DataLayer.Models
         [Required]
         public int CategoryId { get; set; }
         [Required]
-        [Required]
         public int Quantity { get; set; }
         public string Description { get; set; }
         public int? BookId { get; set; }
