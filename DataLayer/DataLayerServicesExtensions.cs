@@ -1,4 +1,4 @@
-﻿using DataLayer.Services;
+﻿using DataLayer.Jobs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;

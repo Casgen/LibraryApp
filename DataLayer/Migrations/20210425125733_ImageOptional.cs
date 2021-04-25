@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataLayer.Migrations
 {
-    public partial class InitDB : Migration
+    public partial class ImageOptional : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -194,7 +194,9 @@ namespace DataLayer.Migrations
                     DateFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateTo = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PublicationId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Debt = table.Column<double>(type: "float", nullable: false),
+                    BookReturned = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

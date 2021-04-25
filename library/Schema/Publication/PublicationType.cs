@@ -44,7 +44,7 @@ namespace Library.Schema.Publication
             }
             public async Task<ImageModel> GetImage(PublicationModel publicationModel, ImageByIdDataLoader dataLoader, CancellationToken cancellationToken)
             {
-                return await dataLoader.LoadAsync(publicationModel.ImageId, cancellationToken);
+                return await dataLoader.LoadAsync((int) publicationModel.ImageId, cancellationToken);
             }
 
             public async Task<CategoryModel> GetCategory(PublicationModel publicationModel, CategoryByIdDataLoader dataLoader, CancellationToken cancellationToken)

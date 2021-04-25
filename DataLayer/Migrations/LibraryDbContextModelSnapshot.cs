@@ -151,7 +151,8 @@ namespace DataLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ImageId")
+                    b.Property<int?>("ImageId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("MagazineId")

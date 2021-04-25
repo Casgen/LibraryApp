@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    [Migration("20210424224856_Addeddebt")]
-    partial class Addeddebt
+    [Migration("20210425125733_ImageOptional")]
+    partial class ImageOptional
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -153,7 +153,8 @@ namespace DataLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ImageId")
+                    b.Property<int?>("ImageId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("MagazineId")
