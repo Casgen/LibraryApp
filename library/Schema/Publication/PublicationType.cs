@@ -18,7 +18,7 @@ namespace Library.Schema.Publication
         {
             descriptor.Field(b => b.Id).Type<IdType>();
 
-            descriptor.Field(b => b.Image).ResolveWith<PublicationResolvers>(b => b.GetImage(default, default, default));
+            descriptor.Field(b => b.Image).ResolveWith<PublicationResolvers>(b => b.GetImage(default, default, default, default));
             descriptor.Field(b => b.Category).ResolveWith<PublicationResolvers>(b => b.GetCategory(default, default, default));
             descriptor.Field(b => b.Magazine).ResolveWith<PublicationResolvers>(b => b.GetMagazine(default, default, default));
             descriptor.Field(b => b.Book).ResolveWith<PublicationResolvers>(b => b.GetBook(default, default, default));
@@ -42,9 +42,14 @@ namespace Library.Schema.Publication
 
                 return await dataLoader.LoadAsync(reservationId, cancellationToken);
             }
-            public async Task<ImageModel> GetImage(PublicationModel publicationModel, ImageByIdDataLoader dataLoader, CancellationToken cancellationToken)
+            public async Task<ImageModel> GetImage(PublicationModel publicationModel, [ScopedService] LibraryDbContext context, ImageByIdDataLoader dataLoader, CancellationToken cancellationToken)
             {
-                return await dataLoader.LoadAsync((int) publicationModel.ImageId, cancellationToken);
+                int imageId = context.Images
+                    .Where(x => x.PublicationId == publicationModel.Id)
+                    .Select(x => x.Id)
+                    .FirstOrDefault();
+
+                return await dataLoader.LoadAsync(imageId, cancellationToken);
             }
 
             public async Task<CategoryModel> GetCategory(PublicationModel publicationModel, CategoryByIdDataLoader dataLoader, CancellationToken cancellationToken)

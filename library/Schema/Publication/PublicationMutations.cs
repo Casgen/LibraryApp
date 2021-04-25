@@ -22,6 +22,15 @@ namespace Library.Schema.Publication
         {
             PublicationModel publicationModel = await context.Publications.FindAsync(id);
             context.Publications.Remove(publicationModel);
+
+            if (publicationModel.BookId.HasValue) {
+                BookModel bookModel = await context.Books.FindAsync(publicationModel.BookId);
+                context.Books.Remove(bookModel);
+            }
+            if (publicationModel.MagazineId.HasValue) {
+                MagazineModel magazineModel = await context.Magazines.FindAsync(publicationModel.MagazineId);
+                context.Magazines.Remove(magazineModel);
+            }
             await context.SaveChangesAsync();
             return publicationModel;
         }
@@ -32,6 +41,5 @@ namespace Library.Schema.Publication
             await context.SaveChangesAsync();
             return publicationModel;
         }
-
     }
 }

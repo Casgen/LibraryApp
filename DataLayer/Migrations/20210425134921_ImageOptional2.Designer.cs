@@ -4,14 +4,16 @@ using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    partial class LibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210425134921_ImageOptional2")]
+    partial class ImageOptional2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,13 +111,14 @@ namespace DataLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PublicationId")
+                    b.Property<int?>("PublicationId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PublicationId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[PublicationId] IS NOT NULL");
 
                     b.ToTable("Images");
                 });
@@ -339,9 +342,7 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.Models.PublicationModel", "Publication")
                         .WithOne("Image")
-                        .HasForeignKey("DataLayer.Models.ImageModel", "PublicationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DataLayer.Models.ImageModel", "PublicationId");
 
                     b.Navigation("Publication");
                 });

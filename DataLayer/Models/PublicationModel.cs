@@ -15,7 +15,6 @@ namespace DataLayer.Models
         public int YearOfPub { get; set; }
         [Required]
         public int CategoryId { get; set; }
-        public int? ImageId { get; set; }
         [Required]
         public string Description { get; set; }
         public int? BookId { get; set; }
