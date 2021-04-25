@@ -18,13 +18,13 @@ namespace Library.Schema.Publication
         {
             descriptor.Field(b => b.Id).Type<IdType>();
 
-            descriptor.Field(b => b.Image).ResolveWith<PublicationResolvers>(b => b.GetImage(default, default, default, default));
+            descriptor.Field(b => b.Image).ResolveWith<PublicationResolvers>(b => b.GetImage(default, default, default, default)).UseDbContext<LibraryDbContext>();
             descriptor.Field(b => b.Category).ResolveWith<PublicationResolvers>(b => b.GetCategory(default, default, default));
             descriptor.Field(b => b.Magazine).ResolveWith<PublicationResolvers>(b => b.GetMagazine(default, default, default));
             descriptor.Field(b => b.Book).ResolveWith<PublicationResolvers>(b => b.GetBook(default, default, default));
             descriptor.Field(b => b.Reviews).ResolveWith<PublicationResolvers>(b => b.GetReviews(default, default, default, default)).UseDbContext<LibraryDbContext>();
             descriptor.Field(b => b.Publisher).ResolveWith<PublicationResolvers>(b => b.GetPublisher(default, default, default));
-            descriptor.Field(b => b.Reservation).ResolveWith<PublicationResolvers>(b => b.GetReservation(default, default, default,default)).UseDbContext<LibraryDbContext>(); ;
+            descriptor.Field(b => b.Reservation).ResolveWith<PublicationResolvers>(b => b.GetReservation(default, default, default,default)).UseDbContext<LibraryDbContext>();
         }
 
         private class PublicationResolvers
@@ -65,7 +65,7 @@ namespace Library.Schema.Publication
 
             public async Task<MagazineModel> GetMagazine(PublicationModel publicationModel, MagazineByIdDataLoader dataLoader, CancellationToken cancellationToken)
             {
-                if (publicationModel.BookId != null) return await dataLoader.LoadAsync((int)publicationModel.MagazineId, cancellationToken);
+                if (publicationModel.MagazineId != null) return await dataLoader.LoadAsync((int)publicationModel.MagazineId, cancellationToken);
                 return null;
             }
 
