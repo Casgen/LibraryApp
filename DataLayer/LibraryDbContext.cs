@@ -23,6 +23,9 @@ namespace DataLayer
         {
             modelBuilder.Entity<BookModel>().HasOne(x => x.Publication).WithOne(x => x.Book).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<PublicationModel>().HasOne(x => x.Magazine).WithOne(x => x.Publication).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<UserModel>().HasAlternateKey(x => x.Username);
+            modelBuilder.Entity<UserModel>().HasAlternateKey(x => x.Email);
             base.OnModelCreating(modelBuilder);
         }
     }
