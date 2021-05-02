@@ -16,7 +16,7 @@ namespace DataLayer.Models
         public int? PublicationId { get; set; }
         [Required]
         public DateTime DateCreated { get; set; }
-        public DateTime DateModified { get; set; }
+        public DateTime? DateModified { get; set; }
         
         public virtual PublicationModel Publication { get; set; }
     }

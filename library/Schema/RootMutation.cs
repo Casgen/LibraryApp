@@ -30,7 +30,7 @@ namespace Library.Schema
             // Book Mutations
             descriptor.Field<BookMutations>(x => x.CreateBook(default, default)).UseDbContext<LibraryDbContext>().Argument("bookModel", x => x.Type<BookInputType>());
             descriptor.Field<BookMutations>(x => x.DeleteBook(default, default)).UseDbContext<LibraryDbContext>();
-            descriptor.Field<BookMutations>(x => x.UpdateBook(default, default)).UseDbContext<LibraryDbContext>().Argument("bookModel", x => x.Type<AuthorInputType>());
+            descriptor.Field<BookMutations>(x => x.UpdateBook(default, default)).UseDbContext<LibraryDbContext>().Argument("bookModel", x => x.Type<BookInputType>());
 
             // Category Mutations
             descriptor.Field<CategoryMutations>(x => x.CreateCategory(default, default)).UseDbContext<LibraryDbContext>().Argument("categoryModel", x => x.Type<CategoryInputType>());
