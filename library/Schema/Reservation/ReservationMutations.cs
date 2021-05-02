@@ -22,6 +22,8 @@ namespace Library.Schema.Reservation
 
         public async Task<ReservationModel> CreateReservation(ReservationModel reservationModel, [ScopedService] LibraryDbContext context)
         {
+            reservationModel.DateFrom = reservationModel.DateFrom.ToLocalTime();
+            reservationModel.DateTo = reservationModel.DateTo.ToLocalTime();
             await context.Reservations.AddAsync(reservationModel);
             await context.SaveChangesAsync();
 
