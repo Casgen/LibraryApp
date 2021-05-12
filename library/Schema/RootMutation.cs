@@ -53,7 +53,7 @@ namespace Library.Schema
             descriptor.Field<PublicationMutations>(x => x.UpdatePublication(default, default)).UseDbContext<LibraryDbContext>().Argument("publicationModel", x => x.Type<PublicationInputType>());
 
             // Publisher Mutations
-            descriptor.Field<PublisherMutations>(x => x.CreatePublisher(default, default)).UseDbContext<LibraryDbContext>().Argument("publisherModel", x => x.Type<PublisherInputType>());//.Authorize(new[] {"Admin"});
+            descriptor.Field<PublisherMutations>(x => x.CreatePublisher(default, default)).UseDbContext<LibraryDbContext>().Argument("publisherModel", x => x.Type<PublisherInputType>());//.Authorize(new[] {"ADMIN"});
             descriptor.Field<PublisherMutations>(x => x.DeletePublisher(default, default)).UseDbContext<LibraryDbContext>();
             descriptor.Field<PublisherMutations>(x => x.UpdatePublisher(default, default)).UseDbContext<LibraryDbContext>().Argument("publisherModel", x => x.Type<PublisherInputType>());//.Authorize(new[] {"Admin"});
 
@@ -68,12 +68,12 @@ namespace Library.Schema
             descriptor.Field<ReviewMutations>(x => x.UpdateReview(default, default)).UseDbContext<LibraryDbContext>().Argument("reviewModel", x => x.Type<ReviewInputType>());
 
             // Role Mutations
-            descriptor.Field<RoleMutations>(x => x.CreateRole(default, default)).UseDbContext<LibraryDbContext>().Argument("roleModel", x => x.Type<RoleInputType>());
-            descriptor.Field<RoleMutations>(x => x.DeleteRole(default, default)).UseDbContext<LibraryDbContext>();
-            descriptor.Field<RoleMutations>(x => x.UpdateRole(default, default)).UseDbContext<LibraryDbContext>().Argument("roleModel", x => x.Type<RoleInputType>());
+            //descriptor.Field<RoleMutations>(x => x.CreateRole(default, default)).UseDbContext<LibraryDbContext>().Argument("roleModel", x => x.Type<RoleInputType>());
+            //descriptor.Field<RoleMutations>(x => x.DeleteRole(default, default)).UseDbContext<LibraryDbContext>();
+            //descriptor.Field<RoleMutations>(x => x.UpdateRole(default, default)).UseDbContext<LibraryDbContext>().Argument("roleModel", x => x.Type<RoleInputType>());
 
             // User Mutations
-            descriptor.Field<UserMutations>(x => x.Register(default, default)).UseDbContext<LibraryDbContext>().Argument("userModel", x => x.Type<UserInputType>());
+            descriptor.Field<UserMutations>(x => x.Register(default, default, default)).Argument("userModel", x => x.Type<UserInputType>());
             descriptor.Field<UserMutations>(x => x.Login(default, default, default, default)).UseDbContext<LibraryDbContext>().Argument("userModel", x => x.Type<UserInputType>());
             descriptor.Field<UserMutations>(x => x.Logout(default));
             descriptor.Field<UserMutations>(x => x.DeleteUser(default, default)).UseDbContext<LibraryDbContext>();

@@ -8,6 +8,7 @@ using DataLayer.Models;
 using HotChocolate;
 using HotChocolate.Types;
 using Library.DataLoader;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library.Schema.User
@@ -18,16 +19,21 @@ namespace Library.Schema.User
         {
             descriptor.Field(x => x.Id).Type<IdType>();
 
-            descriptor.Field(x => x.Role).ResolveWith<UserResolvers>(x => x.GetRole(default, default, default));
+            descriptor.Field(x => x.Role).ResolveWith<UserResolvers>(x => x.GetRole(default, default, default, default));
             descriptor.Field(x => x.Reviews).ResolveWith<UserResolvers>(x => x.GetReviews(default, default, default, default)).UseDbContext<LibraryDbContext>();
             descriptor.Field(x => x.Reservations).ResolveWith<UserResolvers>(x => x.GetReservations(default, default,default, default)).UseDbContext<LibraryDbContext>();
         }
 
         private class UserResolvers
         {
-            public async Task<RoleModel> GetRole(UserModel userModel, RoleByIdDataLoader dataLoader, CancellationToken cancellationToken)
+            public async Task<IdentityRole> GetRole(UserModel userModel, RoleByIdDataLoader dataLoader, [ScopedService] LibraryDbContext context, CancellationToken cancellationToken)
             {
-                return await dataLoader.LoadAsync(userModel.RoleId, cancellationToken);
+                string roleId = context.UserRoles
+                    .Where(x => x.UserId == userModel.Id)
+                    .Select(x => x.RoleId)
+                    .FirstOrDefault();
+
+                return await dataLoader.LoadAsync(roleId, cancellationToken);
             }
             public async Task<IReadOnlyList<ReviewModel>> GetReviews(UserModel userModel, ReviewByIdDataLoader dataLoader, [ScopedService] LibraryDbContext context, CancellationToken cancellationToken)
             {

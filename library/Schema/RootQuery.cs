@@ -59,8 +59,8 @@ namespace Library.Schema
             descriptor.Field<ReviewQueries>(x => x.GetReviews(default)).UseDbContext<LibraryDbContext>().Type<ListType<ReviewType>>();
 
             // Role Queires
-            descriptor.Field<RoleQueries>(x => x.GetRole(default, default)).UseDbContext<LibraryDbContext>().Type<RoleType>();
-            descriptor.Field<RoleQueries>(x => x.GetRoles(default)).UseDbContext<LibraryDbContext>().Type<ListType<RoleType>>();
+            //descriptor.Field<RoleQueries>(x => x.GetRole(default, default)).UseDbContext<LibraryDbContext>().Type<RoleType>();
+            //descriptor.Field<RoleQueries>(x => x.GetRoles(default)).UseDbContext<LibraryDbContext>().Type<ListType<RoleType>>();
 
             // User Queires
             descriptor.Field<UserQueries>(x => x.GetUser(default, default)).UseDbContext<LibraryDbContext>().Type<UserType>();

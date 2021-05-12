@@ -14,13 +14,13 @@ namespace Library.Schema.User
     {
         public async Task<UserModel> GetUser(int id, [ScopedService] LibraryDbContext context)
         {
-            UserModel publisher = await context.Users.FindAsync(id);
-            return publisher;
+            UserModel user = await context.Users.FindAsync(id);
+            return user;
         }
         public async Task<List<UserModel>> GetUsers([ScopedService] LibraryDbContext context)
         {
-            List<UserModel> publishers = await context.Users.ToListAsync();
-            return publishers;
+            List<UserModel> users = await context.Users.ToListAsync();
+            return users;
         }
     }
 }

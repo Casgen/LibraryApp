@@ -16,7 +16,7 @@ namespace DataLayer.Models
         [StringLength(1024)]
         public string Text { get; set; }
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [Required]
         public int PublicationId { get; set; }
 
