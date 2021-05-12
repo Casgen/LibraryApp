@@ -4,14 +4,16 @@ using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    partial class LibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210425155945_pubOptional")]
+    partial class pubOptional
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -340,8 +342,7 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.Models.PublicationModel", "Publication")
                         .WithOne("Image")
-                        .HasForeignKey("DataLayer.Models.ImageModel", "PublicationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("DataLayer.Models.ImageModel", "PublicationId");
 
                     b.Navigation("Publication");
                 });

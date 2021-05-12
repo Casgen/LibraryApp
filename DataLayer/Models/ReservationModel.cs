@@ -16,7 +16,7 @@ namespace DataLayer.Models
         [Required]
         public int PublicationId { get; set; }
         [Required]
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         public double Debt {get; set; }
         public bool BookReturned { get; set; }
 

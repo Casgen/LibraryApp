@@ -12,25 +12,25 @@ namespace Library.Schema.Role
     public class RoleMutations
     {
 
-        //public async Task<IdentityRole> CreateRole(IdentityRole roleModel, [ScopedService] LibraryDbContext context)
-        //{
-        //    await context.Roles.AddAsync(roleModel);
-        //    await context.SaveChangesAsync();
-        //    return roleModel;
-        //}
-        //public async Task<IdentityRole> DeleteRole(int id, [ScopedService] LibraryDbContext context)
-        //{
-        //    RoleModel roleModel = await context.Roles.FindAsync(id);
-        //    context.Roles.Remove(roleModel);
-        //    await context.SaveChangesAsync();
-        //    return roleModel;
-        //}
+        public async Task<RoleModel> CreateRole(RoleModel roleModel, [ScopedService] LibraryDbContext context)
+        {
+            await context.Roles.AddAsync(roleModel);
+            await context.SaveChangesAsync();
+            return roleModel;
+        }
+        public async Task<RoleModel> DeleteRole(int id, [ScopedService] LibraryDbContext context)
+        {
+            RoleModel roleModel = await context.Roles.FindAsync(id);
+            context.Roles.Remove(roleModel);
+            await context.SaveChangesAsync();
+            return roleModel;
+        }
 
-        //public async Task<RoleModel> UpdateRole(RoleModel roleModel, [ScopedService] LibraryDbContext context)
-        //{
-        //    context.Roles.Update(roleModel);
-        //    await context.SaveChangesAsync();
-        //    return roleModel;
-        //}
+        public async Task<RoleModel> UpdateRole(RoleModel roleModel, [ScopedService] LibraryDbContext context)
+        {
+            context.Roles.Update(roleModel);
+            await context.SaveChangesAsync();
+            return roleModel;
+        }
     }
 }

@@ -13,12 +13,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using HotChocolate;
+using Library.Schema.Author;
+using Library.Schema.Book;
+using Library.Schema.Category;
+using Library.Schema.Image;
+using Library.Schema.Magazine;
+using Library.Schema.Publication;
+using Library.Schema.Publisher;
+using Library.Schema.Reservation;
+using Library.Schema.Review;
+using Library.Schema.Role;
+using Library.Schema.User;
 using Library.Schema;
 using Library.DataLoader;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
-using DataLayer.Models;
-using Microsoft.AspNetCore.Identity;
 
 namespace library
 {
@@ -38,6 +47,7 @@ namespace library
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddGraphQLServer()
                 .AddAuthorization()
                 .AddFiltering()
@@ -56,46 +66,25 @@ namespace library
                 .AddDataLoader<UserByIdDataLoader>()
                 .AddErrorFilter<GraphQLErrorFilter>();
 
-            //services.AddHttpContextAccessor();
+            services.AddHttpContextAccessor();
 
-            //services.AddAuthorization();
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            //    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            //})
-            //.AddCookie(options => {
-            //    options.Cookie.IsEssential = true;
-            //    options.Cookie.HttpOnly = true;
-            //    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-            //    options.Cookie.SameSite = SameSiteMode.None;
-            //});
+            services.AddAuthorization();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie();
 
             services.AddCors(options => options.AddPolicy(name: MyAllowSpecificOrigins,
                               builder =>
                               {
-                                  builder.WithOrigins("https://localhost:44307/graphql", "https://localhost:3000")
+                                  builder.AllowAnyOrigin()
                                   .AllowAnyHeader()
-                                  .AllowAnyMethod()
-                                  .AllowCredentials();
+                                  .AllowAnyMethod();
                               }));
-            services.AddAuthorization();
-
+            
             services.AddPooledDbContextFactory<LibraryDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
                 options.UseLoggerFactory(_loggerFactory);
             });
-            services.AddScoped(p => p.GetRequiredService<IDbContextFactory<LibraryDbContext>>().CreateDbContext());
-            services.AddIdentity<UserModel, IdentityRole>(x =>
-            {
-                x.Password.RequireDigit = false;
-                x.Password.RequireUppercase = false;
-                x.Password.RequireNonAlphanumeric = false;
-                x.Password.RequiredLength = 5;
-            })
-            .AddEntityFrameworkStores<LibraryDbContext>()
-            .AddDefaultTokenProviders();
 
             services.AddDataLayerServices();
         }
@@ -112,27 +101,27 @@ namespace library
 
             app.UseHttpsRedirection();
 
-            app.UseCors(MyAllowSpecificOrigins);
+            app.UseCors(builder => builder.AllowAnyOrigin()
+                                  .AllowAnyHeader()
+                                  .AllowAnyMethod());
 
             app.UseRouting();
 
-            //var cookiePolicyOptions = new CookiePolicyOptions
-            //{
-            //    MinimumSameSitePolicy = SameSiteMode.None,
-            //    Secure = CookieSecurePolicy.Always,
-            //    ConsentCookie = { IsEssential = true },
-            //    CheckConsentNeeded = context => false
-            //};
+            var cookiePolicyOptions = new CookiePolicyOptions
+            {
+                MinimumSameSitePolicy = SameSiteMode.Strict,
+            };
 
-           // app.UseCookiePolicy(cookiePolicyOptions);
+            app.UseCookiePolicy(cookiePolicyOptions);
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseRouting()
+            app
+                .UseRouting()
                 .UseEndpoints(endpoints => {
-                    endpoints.MapGraphQL();
-                });
+                endpoints.MapGraphQL();
+            });
         }
     }
 }

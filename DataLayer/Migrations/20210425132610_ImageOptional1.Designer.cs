@@ -4,14 +4,16 @@ using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    partial class LibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210425132610_ImageOptional1")]
+    partial class ImageOptional1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,6 +62,9 @@ namespace DataLayer.Migrations
                         .HasMaxLength(17)
                         .HasColumnType("nvarchar(17)");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
@@ -106,14 +111,7 @@ namespace DataLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PublicationId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PublicationId")
-                        .IsUnique()
-                        .HasFilter("[PublicationId] IS NOT NULL");
 
                     b.ToTable("Images");
                 });
@@ -129,6 +127,9 @@ namespace DataLayer.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -149,7 +150,11 @@ namespace DataLayer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ImageId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("MagazineId")
                         .HasColumnType("int");
@@ -159,9 +164,6 @@ namespace DataLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PublisherId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<int>("YearOfPub")
@@ -174,6 +176,8 @@ namespace DataLayer.Migrations
                         .HasFilter("[BookId] IS NOT NULL");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("ImageId");
 
                     b.HasIndex("MagazineId")
                         .IsUnique()
@@ -316,10 +320,6 @@ namespace DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("Email");
-
-                    b.HasAlternateKey("Username");
-
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
@@ -336,16 +336,6 @@ namespace DataLayer.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.ImageModel", b =>
-                {
-                    b.HasOne("DataLayer.Models.PublicationModel", "Publication")
-                        .WithOne("Image")
-                        .HasForeignKey("DataLayer.Models.ImageModel", "PublicationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Publication");
-                });
-
             modelBuilder.Entity("DataLayer.Models.PublicationModel", b =>
                 {
                     b.HasOne("DataLayer.Models.BookModel", "Book")
@@ -358,6 +348,10 @@ namespace DataLayer.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("DataLayer.Models.ImageModel", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
 
                     b.HasOne("DataLayer.Models.MagazineModel", "Magazine")
                         .WithOne("Publication")
@@ -373,6 +367,8 @@ namespace DataLayer.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("Category");
+
+                    b.Navigation("Image");
 
                     b.Navigation("Magazine");
 
@@ -450,8 +446,6 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.PublicationModel", b =>
                 {
-                    b.Navigation("Image");
-
                     b.Navigation("Reservation");
 
                     b.Navigation("Reviews");
